@@ -6,9 +6,7 @@
 
   <canvas use:init></canvas>
 
-<h1>
-  hello!
-</h1>
+  <em>alex's garage</em>
 
 {@render children()}
 
@@ -17,6 +15,10 @@
   html {
     background-color: #fee;
   }
+  body { 
+    margin: 0;
+    padding: 0;
+    }
   }
 
   canvas {
