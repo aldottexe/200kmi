@@ -1,15 +1,15 @@
 export const monoShader = {
 
-    name: 'monoShader',
+	name: 'monoShader',
 
-    uniforms: {
+	uniforms: {
 
-        'tDiffuse': { value: null },
-        'opacity': { value: 1.0 }
+		'tDiffuse': { value: null },
+		'opacity': { value: 1.0 }
 
-    },
+	},
 
-    vertexShader: /* glsl */`
+	vertexShader: /* glsl */`
 
 		varying vec2 vUv;
 
@@ -20,7 +20,7 @@ export const monoShader = {
 
 		}`,
 
-    fragmentShader: /* glsl */`
+	fragmentShader: /* glsl */`
 
 		uniform float opacity;
 
@@ -30,11 +30,11 @@ export const monoShader = {
 
 		void main() {
 
-			vec4 texel = texture2D( tDiffuse, vUv );
-      float gray = dot(texel.rgb, vec3(0.229), 0.587, 0.114));
-      gray = gray - mod(gray, 0.1);
-      float o = min(1.0 - gray), opacity);
-			gl_FragColor = opacity * vec4(vec3(gray), 1.0);
+		    vec4 texel = texture2D( tDiffuse, vUv );
+		    float gray = dot(texel.rgb, vec3(0.229, 0.587, 0.114));
+		    gray = gray - mod(gray, 0.1);
+		    float o = min(1.0 - gray, texel.a);
+		    gl_FragColor = vec4(vec3(gray), texel.a);
 
 		}`
 

@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 
-import { BloomEffect, NoiseEffect, KawaseBlurPass, EffectComposer, EffectPass, RenderPass, LuminancePass, PixelationEffect } from "postprocessing";
-import { MonoEffect } from './monoEffect';
-import { RenderPixelatedPass } from 'three/examples/jsm/Addons.js';
+import { monoShader } from './monoPass';
+import { OutputPass, RenderPass, RenderPixelatedPass, ShaderPass } from 'three/examples/jsm/Addons.js';
+import { EffectComposer } from 'three/examples/jsm/Addons.js';
 
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { UltraHDRLoader } from 'three/addons/loaders/UltraHDRLoader.js';
@@ -16,7 +16,7 @@ export function init(node: HTMLCanvasElement) {
 
 	// RENDERER
 	renderer = new THREE.WebGLRenderer({powerPreference:'high-performance', depth: false, antialias: false, canvas: node, alpha: true});
-	renderer.setPixelRatio(window.devicePixelRatio);
+	// renderer.setPixelRatio(.25);
 	renderer.setSize(window.innerWidth, window.innerHeight);
 
 	// CAMERA
@@ -76,14 +76,15 @@ export function init(node: HTMLCanvasElement) {
 	composer = new EffectComposer(renderer);
 	composer.addPass(new RenderPass(scene, camera));
 
-	// composer.addPass(new RenderPixelatedPass(6, scene, camera))
+	const pixel = new RenderPixelatedPass(7, scene, camera)
+	pixel.normalEdgeStrength = .2
+	composer.addPass(pixel)
 
-	const bw = new MonoEffect();
-	composer.addPass(new EffectPass(camera, bw));
+	const bw = new ShaderPass(monoShader);
+	composer.addPass(bw);
 
-	const pixel = new PixelationEffect(7);
-	composer.addPass(new EffectPass(camera, pixel));
-
+const outputPass = new OutputPass();
+composer.addPass( outputPass );
 
 	// const blur = new KawaseBlurPass();
 	// blur.scale = .5;
