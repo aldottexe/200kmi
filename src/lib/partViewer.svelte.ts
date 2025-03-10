@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 
-import { BloomEffect, NoiseEffect, KawaseBlurPass, EffectComposer, EffectPass, RenderPass } from "postprocessing";
+import { BloomEffect, NoiseEffect, KawaseBlurPass, EffectComposer, EffectPass, RenderPass, LuminancePass, PixelationEffect } from "postprocessing";
+import { MonoEffect } from './monoEffect';
+import { RenderPixelatedPass } from 'three/examples/jsm/Addons.js';
 
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { UltraHDRLoader } from 'three/addons/loaders/UltraHDRLoader.js';
@@ -13,11 +15,9 @@ let piston: any;
 export function init(node: HTMLCanvasElement) {
 
 	// RENDERER
-	renderer = new THREE.WebGLRenderer({ antialias: false, canvas: node, alpha: false});
+	renderer = new THREE.WebGLRenderer({powerPreference:'high-performance', depth: false, antialias: false, canvas: node, alpha: true});
 	renderer.setPixelRatio(window.devicePixelRatio);
 	renderer.setSize(window.innerWidth, window.innerHeight);
-	renderer.toneMapping = THREE.ACESFilmicToneMapping;
-	renderer.toneMappingExposure = 5
 
 	// CAMERA
 	camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 100);
@@ -27,7 +27,7 @@ export function init(node: HTMLCanvasElement) {
 
 	// SCENE
 	scene = new THREE.Scene();
-	scene.background = new THREE.Color("#fee")
+	// scene.background = new THREE.Color("#eee")
 
 	// HDRI
 	// convert to gainmap using
@@ -74,21 +74,26 @@ export function init(node: HTMLCanvasElement) {
 
 	// EFFECTS
 	composer = new EffectComposer(renderer);
+	composer.addPass(new RenderPass(scene, camera));
 
-	const renderPass = new RenderPass(scene, camera);
-	composer.addPass(renderPass);
+	// composer.addPass(new RenderPixelatedPass(6, scene, camera))
 
-	const blur = new KawaseBlurPass();
-	blur.scale = .5;
-	composer.addPass(blur);
+	const bw = new MonoEffect();
+	composer.addPass(new EffectPass(camera, bw));
 
-	const bloom = new BloomEffect();
+	const pixel = new PixelationEffect(7);
+	composer.addPass(new EffectPass(camera, pixel));
 
-	const noise = new NoiseEffect()
-	noise.blendMode.opacity = new THREE.Uniform(.2);
 
-	const bloomPass = new EffectPass(camera, bloom, noise);
-	composer.addPass(bloomPass);
+	// const blur = new KawaseBlurPass();
+	// blur.scale = .5;
+	// composer.addPass(blur);
+	//
+	// const noise = new NoiseEffect()
+	// noise.blendMode.opacity = new THREE.Uniform(.2);
+	//
+	// const bloomPass = new EffectPass(camera, new BloomEffect(), noise);
+	// composer.addPass(bloomPass);
 
 	window.addEventListener('resize', onWindowResize);
 }
