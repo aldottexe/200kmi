@@ -24,6 +24,8 @@ export function init(node: HTMLCanvasElement) {
 	camera.position.z = 2;
 
 	const orbit = new OrbitControls(camera, node)
+	orbit.enableZoom = false;
+	orbit.enablePan = false;
 
 	// SCENE
 	scene = new THREE.Scene();
@@ -43,21 +45,6 @@ export function init(node: HTMLCanvasElement) {
 		scene.environment = t;
 	});
 
-	// LIGHTS
-	// const light = new THREE.PointLight(0xc0b3ed, 20);
-	// const light2 = new THREE.PointLight(0x7587a1, 20);
-	// const light3 = new THREE.AmbientLight(0xffffff, 1);
-	//
-	// light.position.set(4, 0, 2);
-	// light2.position.set(-2, 0, -2);
-	//
-	// scene.add(light);
-	// scene.add(light2);
-	// scene.add(light3);
-	//
-	// scene.add(new THREE.PointLightHelper(light));
-	// scene.add(new THREE.PointLightHelper(light2));
-
 	// OBJECT
 	const objLoader = new OBJLoader();
 	objLoader.load('piston.obj', (root) => {
@@ -76,25 +63,18 @@ export function init(node: HTMLCanvasElement) {
 	composer = new EffectComposer(renderer);
 	composer.addPass(new RenderPass(scene, camera));
 
-	const pixel = new RenderPixelatedPass(7, scene, camera)
+	const pixel = new RenderPixelatedPass(5, scene, camera)
 	pixel.normalEdgeStrength = .2
 	composer.addPass(pixel)
 
 	const bw = new ShaderPass(monoShader);
+	// bw.uniforms = {
+	// 	u_resolution: new THREE.Vector2(window.innerWidth, window.innerHeight),
+	// };
 	composer.addPass(bw);
 
-const outputPass = new OutputPass();
-composer.addPass( outputPass );
-
-	// const blur = new KawaseBlurPass();
-	// blur.scale = .5;
-	// composer.addPass(blur);
-	//
-	// const noise = new NoiseEffect()
-	// noise.blendMode.opacity = new THREE.Uniform(.2);
-	//
-	// const bloomPass = new EffectPass(camera, new BloomEffect(), noise);
-	// composer.addPass(bloomPass);
+	// const outputPass = new OutputPass();
+	// composer.addPass( outputPass );
 
 	window.addEventListener('resize', onWindowResize);
 }
