@@ -11,11 +11,13 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 let camera: THREE.PerspectiveCamera, scene: THREE.Scene, renderer: THREE.WebGLRenderer;
 let composer: EffectComposer;
 let piston: any;
+let bw: ShaderPass;
+let pixel: ShaderPass;
 
 export function init(node: HTMLCanvasElement) {
 
 	// RENDERER
-	renderer = new THREE.WebGLRenderer({powerPreference:'high-performance', depth: false, antialias: false, canvas: node, alpha: true});
+	renderer = new THREE.WebGLRenderer({ powerPreference: 'high-performance', depth: false, antialias: false, canvas: node, alpha: true });
 	// renderer.setPixelRatio(.25);
 	renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -63,14 +65,12 @@ export function init(node: HTMLCanvasElement) {
 	composer = new EffectComposer(renderer);
 	composer.addPass(new RenderPass(scene, camera));
 
-	const pixel = new RenderPixelatedPass(5, scene, camera)
+	pixel = new RenderPixelatedPass(5, scene, camera)
 	pixel.normalEdgeStrength = .2
 	composer.addPass(pixel)
 
-	const bw = new ShaderPass(monoShader);
-	// bw.uniforms = {
-	// 	u_resolution: new THREE.Vector2(window.innerWidth, window.innerHeight),
-	// };
+	bw = new ShaderPass(monoShader);
+	bw.uniforms.u_resolution.value = new THREE.Vector2(window.innerWidth, window.innerHeight);
 	composer.addPass(bw);
 
 	// const outputPass = new OutputPass();
@@ -84,6 +84,9 @@ function onWindowResize() {
 
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
+
+	bw.uniforms.u_resolution.value = new THREE.Vector2(window.innerWidth, window.innerHeight);
+	pixel.setSize(window.innerWidth, window.innerHeight);
 
 	renderer.setSize(window.innerWidth, window.innerHeight);
 
