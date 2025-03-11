@@ -15,7 +15,7 @@
 <style>
   :global {
   html {
-    background-color: #fee;
+    background-color: #eaeaea;
   }
   body { 
     margin: 0;
@@ -28,6 +28,8 @@
     z-index: -1;
     width: 100vw;
     height: 100vh;
+    pointer-events: all;
+    image-rendering: pixelated;
   }
 
   :global .part {
@@ -35,6 +37,7 @@
 
     * {
      font-family: helvetica; 
+      width: fit-content;
     }
 
     h1{
@@ -48,5 +51,8 @@
       width: 400px;
       line-height: 25px;
     }
+  }
+  .part {
+      width: fit-content;
   }
 </style>
