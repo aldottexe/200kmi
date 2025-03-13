@@ -1,12 +1,13 @@
 <script lang="ts">
-  import { init } from "$lib/partViewer.svelte";
-   import {type Snippet} from 'svelte';
-   let { children } :  {children: Snippet} = $props();
+  import {init} from "$lib/partViewer.svelte";
+  import {type Snippet} from 'svelte';
+
+  let { children } : {children: Snippet} = $props();
 </script>
 
   <canvas use:init></canvas>
 
-  <em>alex's garage</em>
+  <em>200kmi</em>
 
 <div class="part">
 {@render children()}
