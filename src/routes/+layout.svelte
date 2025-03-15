@@ -3,6 +3,9 @@
   import {type Snippet} from 'svelte';
 
   let { children } : {children: Snippet} = $props();
+
+  import { page } from "$app/state";
+  $inspect(page.route.id);
 </script>
 
   <canvas use:init></canvas>

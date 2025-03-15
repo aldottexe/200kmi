@@ -5,6 +5,7 @@ import { RenderPass, RenderPixelatedPass, ShaderPass } from 'three/examples/jsm/
 import { EffectComposer } from 'three/examples/jsm/Addons.js';
 
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+import { GLTFLoader } from 'three/examples/jsm/Addons.js';
 import { UltraHDRLoader } from 'three/addons/loaders/UltraHDRLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
@@ -37,8 +38,9 @@ export function parentButton(node: HTMLElement) {
   node.addEventListener("click", () => selectParent());
 }
 function selectParent() {
+  console.log("old current", currentlyViewedPart.name);
   currentlyViewedPart = currentlyViewedPart.parent;
-  console.log(currentlyViewedPart)
+  console.log("new block", currentlyViewedPart.name);
 
   currentlyViewedPart.visibility = true;
   currentlyViewedPart.children.forEach((c: THREE.Mesh) => c.visible = true);
@@ -54,10 +56,16 @@ function selectParent() {
 
 function selectChild(i: number) {
 
+  currentlyViewedPart.visibility = false;
   // show only selected child
   currentlyViewedPart.children.forEach((c: THREE.Mesh, j: number) => { if (j != i) c.visible = false; else c.visible = true; });
 
-  currentlyViewedPart = partsRoot.children[i];
+  parentName.value = currentlyViewedPart.name;
+
+
+  console.log("old current", currentlyViewedPart.name);
+  currentlyViewedPart = currentlyViewedPart.children[i];
+  console.log("new current", currentlyViewedPart.name);
 
   currentlyViewedPart.traverse(c => c.material = mat);
 
@@ -69,12 +77,10 @@ function selectChild(i: number) {
   if (currentlyViewedPart.children)
     currentlyViewedPart.children.forEach((c: THREE.Mesh) => childNames.value.push(c.name));
 
-  if (currentlyViewedPart.parent)
-    parentName.value = currentlyViewedPart.parent.name;
-  console.log(currentlyViewedPart)
 }
 
 function positionCameraOnGeometry(m: THREE.Mesh) {
+  console.log(m)
   let center = new THREE.Vector3();
 
   const boundingBox = new THREE.Box3();
@@ -106,7 +112,6 @@ export function init(node: HTMLCanvasElement) {
 
   // CAMERA
   camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 100);
-  camera.position.z = 2;
 
   // ORBIT
   orbit = new OrbitControls(camera, node)
@@ -132,20 +137,25 @@ export function init(node: HTMLCanvasElement) {
   });
 
   // OBJECT
-  const objLoader = new OBJLoader();
-  objLoader.load('piston.obj', (root) => {
-    partsRoot = root
+  const objLoader = new GLTFLoader();
+  objLoader.load('piston.glb', (root) => {
+    partsRoot = root.scene.children[0]
+    console.log(partsRoot);
+
     partsRoot.scale.set(.4, .4, .4);
     partsRoot.rotation.z += 1;
-    root.name = "home"
 
-    scene.add(partsRoot);
-    currentlyViewedPart = root
+    currentlyViewedPart = partsRoot
+
+    scene.add(currentlyViewedPart);
+
+
 
     partsRoot.traverse((c: any) => { if(c.isMesh) c.material = mat;});
 
-    if (currentlyViewedPart.children)
-      currentlyViewedPart.children.forEach(c => childNames.value.push(c.name));
+    positionCameraOnGeometry(currentlyViewedPart);
+
+    currentlyViewedPart.children.forEach(c => {childNames.value.push(c.name);});
   });
 
   renderer.setAnimationLoop(animate);
