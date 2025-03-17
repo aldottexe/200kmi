@@ -22,14 +22,16 @@ let pixel: RenderPixelatedPass;
 let orbit: OrbitControls;
 
 // MATERIALS
-const selected = new THREE.MeshBasicMaterial({ color: 0x00eeff })
+const hover = new THREE.MeshBasicMaterial({ color: 0x00eeff })
+const hidden = new THREE.MeshBasicMaterial({ color: 0x00eeff, transparent: true, opacity: .1,})
+const hiddenhover = new THREE.MeshBasicMaterial({ color: 0x00eeff, transparent: true, opacity: .1,})
 const mat = new THREE.MeshStandardMaterial({ metalness: .8, roughness: .6 })
 
 export const childNames: { value: Array<string> } = $state({ value: [] })
 export const parentName: { value: string } = $state({ value: "" })
 
 export function childButton(node: HTMLElement, i: number) {
-  node.addEventListener("mouseenter", () => currentlyViewedPart.children[i].traverse(c => c.material = selected));
+  node.addEventListener("mouseenter", () => currentlyViewedPart.children[i].traverse(c => {c.material = hover}));
   node.addEventListener("mouseleave", () => currentlyViewedPart.children[i].traverse(c => c.material = mat));
   node.addEventListener("click", () => selectChild(i));
 }
@@ -42,8 +44,7 @@ function selectParent() {
   currentlyViewedPart = currentlyViewedPart.parent;
   console.log("new block", currentlyViewedPart.name);
 
-  currentlyViewedPart.visibility = true;
-  currentlyViewedPart.children.forEach((c: THREE.Mesh) => c.visible = true);
+  currentlyViewedPart.traverse((c: THREE.Mesh) => c.material = mat);
 
   positionCameraOnGeometry(currentlyViewedPart)
 
@@ -56,9 +57,9 @@ function selectParent() {
 
 function selectChild(i: number) {
 
-  currentlyViewedPart.visibility = false;
+  currentlyViewedPart.material = hidden;
   // show only selected child
-  currentlyViewedPart.children.forEach((c: THREE.Mesh, j: number) => { if (j != i) c.visible = false; else c.visible = true; });
+  currentlyViewedPart.traverse((c: THREE.Mesh, j: number) => { if (j != i) c.material = hidden; else c.material = mat; });
 
   parentName.value = currentlyViewedPart.name;
 
@@ -77,6 +78,33 @@ function selectChild(i: number) {
   if (currentlyViewedPart.children)
     currentlyViewedPart.children.forEach((c: THREE.Mesh) => childNames.value.push(c.name));
 
+}
+
+function selectPartByName(name: String) {
+  function checkChild(part: any, found: Boolean) {
+    if (found === false && part.name === name) {
+      currentlyViewedPart = part;
+      positionCameraOnGeometry(currentlyViewedPart);
+    }
+    found = found || part.name === name;
+    part.visible = found;
+    part.children.forEach(c =>
+      checkChild(c, found)
+    );
+  }
+  checkChild(partsRoot, false);
+}
+
+function createPartsManifest(): Map<String, Array<number>> {
+  const manifest: Map<String, Array<number>> = new Map();
+  function searchChild(part: any, path: Array<number>) {
+    const partName = part.name.split('0')[0];
+    manifest.set(partName, path);
+    part.children?.forEach((c, i) =>
+      searchChild(c, [...path, i]))
+  }
+  searchChild(partsRoot, []);
+  return manifest;
 }
 
 function positionCameraOnGeometry(m: THREE.Mesh) {
@@ -144,18 +172,14 @@ export function init(node: HTMLCanvasElement) {
 
     partsRoot.scale.set(.4, .4, .4);
     partsRoot.rotation.z += 1;
+    partsRoot.traverse((c: any) => { if (c.isMesh) c.material = mat; });
 
     currentlyViewedPart = partsRoot
-
     scene.add(currentlyViewedPart);
 
-
-
-    partsRoot.traverse((c: any) => { if(c.isMesh) c.material = mat;});
-
-    positionCameraOnGeometry(currentlyViewedPart);
-
-    currentlyViewedPart.children.forEach(c => {childNames.value.push(c.name);});
+    console.log(createPartsManifest());
+    currentlyViewedPart.children.forEach(c => { childNames.value.push(c.name); });
+    setTimeout(() => positionCameraOnGeometry(currentlyViewedPart), 100);
   });
 
   renderer.setAnimationLoop(animate);

@@ -37,7 +37,7 @@ export const monoShader = {
 				pvUv = pvUv - mod(pvUv, vec2(5.0)) + 2.0;
 				pvUv = pvUv / u_resolution.xy;
 
-		    vec4 texel = texture2D( tDiffuse, pvUv);
+		    vec4 texel = texture2D(tDiffuse, pvUv);
 
 		    float gray = dot(texel.rgb, vec3(0.229, 0.587, 0.114));
 		    gray = gray - mod(gray, 0.05);
