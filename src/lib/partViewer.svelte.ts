@@ -1,120 +1,126 @@
 import * as THREE from 'three';
 
 import { monoShader } from './monoPass';
-import { RenderPass, RenderPixelatedPass, ShaderPass } from 'three/examples/jsm/Addons.js';
+import { RenderPass, RenderPixelatedPass, ShaderPass, BloomPass, OutputPass} from 'three/examples/jsm/Addons.js';
 import { EffectComposer } from 'three/examples/jsm/Addons.js';
 
-import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/Addons.js';
 import { UltraHDRLoader } from 'three/addons/loaders/UltraHDRLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-// the currently viewed part
-let currentlyViewedPart: any;
 
+let partsRootResolver: Function;
 // the root of all the parts
-let partsRoot: any;
+let partsRoot: Promise<THREE.Mesh> = new Promise(resolve => partsRootResolver = resolve)
+
+// the currently viewed part, resolves when partsRoot does.
+let currentlyViewedPart: Promise<THREE.Mesh> = new Promise(async resolve => resolve(await partsRoot));
 
 let camera: THREE.PerspectiveCamera, scene: THREE.Scene, renderer: THREE.WebGLRenderer;
 let composer: EffectComposer;
 let bw: ShaderPass;
 let pixel: RenderPixelatedPass;
 let orbit: OrbitControls;
+let out: OutputPass;
 
 // MATERIALS
-const hover = new THREE.MeshBasicMaterial({ color: 0x00eeff })
-const hidden = new THREE.MeshBasicMaterial({ color: 0x00eeff, transparent: true, opacity: .1,})
-const hiddenhover = new THREE.MeshBasicMaterial({ color: 0x00eeff, transparent: true, opacity: .1,})
-const mat = new THREE.MeshStandardMaterial({ metalness: .8, roughness: .6 })
+const hover = new THREE.MeshBasicMaterial({ name: "hover", color: 0x00eeff })
+const hidden = new THREE.MeshBasicMaterial({ name: "hidden", color: 0x00eeff, transparent: true, opacity: .1, })
+const hiddenhover = new THREE.MeshBasicMaterial({ name: "hiddenHover", color: 0x00eeff, transparent: true, opacity: .6, })
+const shown = new THREE.MeshStandardMaterial({ name: "shown", metalness: .8, roughness: .6 })
 
-export const childNames: { value: Array<string> } = $state({ value: [] })
-export const parentName: { value: string } = $state({ value: "" })
+let manifestResolver: Function;
+const manifest: Promise<Map<String, Array<THREE.Object3D>>> = new Promise(resolve => manifestResolver = resolve);
 
-export function childButton(node: HTMLElement, i: number) {
-  node.addEventListener("mouseenter", () => currentlyViewedPart.children[i].traverse(c => {c.material = hover}));
-  node.addEventListener("mouseleave", () => currentlyViewedPart.children[i].traverse(c => c.material = mat));
-  node.addEventListener("click", () => selectChild(i));
+// BUTTON
+export async function partButton(node: HTMLAnchorElement, p: { part: string, i: number | undefined }) {
+  const boundPart = await queryPart(p.part, p.i);
+  node.addEventListener("mouseenter", () => highlightPart(boundPart, true));
+  node.addEventListener("mouseleave", () => highlightPart(boundPart, false));
 }
 
-export function parentButton(node: HTMLElement) {
-  node.addEventListener("click", () => selectParent());
-}
-function selectParent() {
-  console.log("old current", currentlyViewedPart.name);
-  currentlyViewedPart = currentlyViewedPart.parent;
-  console.log("new block", currentlyViewedPart.name);
+export async function queryPart(name: String, i: number | undefined = undefined): Promise<THREE.Object3D> {
+  name = name.replaceAll(/-| /g, '_');
+  if (i && (await manifest).get(name)[i])
+    return (await manifest).get(name)[i]
 
-  currentlyViewedPart.traverse((c: THREE.Mesh) => c.material = mat);
+  const currentbb = traversedBoundingBoxCenter(await currentlyViewedPart).center;
+  
+  let closestInstance: THREE.Object3D = (await manifest).get(name)[0];
+  let closestDistance = Number.MAX_VALUE;
 
-  positionCameraOnGeometry(currentlyViewedPart)
-
-  // repopulate child buttons
-  childNames.value = [];
-  currentlyViewedPart.children.forEach((c: THREE.Mesh) => childNames.value.push(c.name));
-
-  parentName.value = currentlyViewedPart.parent.name;
-}
-
-function selectChild(i: number) {
-
-  currentlyViewedPart.material = hidden;
-  // show only selected child
-  currentlyViewedPart.traverse((c: THREE.Mesh, j: number) => { if (j != i) c.material = hidden; else c.material = mat; });
-
-  parentName.value = currentlyViewedPart.name;
-
-
-  console.log("old current", currentlyViewedPart.name);
-  currentlyViewedPart = currentlyViewedPart.children[i];
-  console.log("new current", currentlyViewedPart.name);
-
-  currentlyViewedPart.traverse(c => c.material = mat);
-
-  positionCameraOnGeometry(currentlyViewedPart)
-
-
-  // repopulate child buttons
-  childNames.value = [];
-  if (currentlyViewedPart.children)
-    currentlyViewedPart.children.forEach((c: THREE.Mesh) => childNames.value.push(c.name));
-
-}
-
-function selectPartByName(name: String) {
-  function checkChild(part: any, found: Boolean) {
-    if (found === false && part.name === name) {
-      currentlyViewedPart = part;
-      positionCameraOnGeometry(currentlyViewedPart);
+  (await manifest).get(name)?.forEach(instance => {
+    const box = traversedBoundingBoxCenter(instance).center;
+    const distance = box.distanceTo(currentbb)
+    if (distance < closestDistance) {
+      closestInstance = instance;
+      closestDistance = distance;
     }
-    found = found || part.name === name;
-    part.visible = found;
-    part.children.forEach(c =>
-      checkChild(c, found)
-    );
-  }
-  checkChild(partsRoot, false);
+  });
+  return closestInstance;
 }
 
-function createPartsManifest(): Map<String, Array<number>> {
-  const manifest: Map<String, Array<number>> = new Map();
-  function searchChild(part: any, path: Array<number>) {
-    const partName = part.name.split('0')[0];
-    manifest.set(partName, path);
-    part.children?.forEach((c, i) =>
-      searchChild(c, [...path, i]))
-  }
-  searchChild(partsRoot, []);
-  return manifest;
+export async function selectPart(boundPart: THREE.Object3D) {
+  console.log("select part")
+  highlightPart(boundPart, false);
+  (await partsRoot).traverse((p: any) => { if (p.isMesh) p.material = hidden });
+  boundPart.traverse((p: any) => { if (p.isMesh) p.material = shown })
+  currentlyViewedPart = boundPart;
+  positionCameraOnGeometry(await currentlyViewedPart);
 }
 
-function positionCameraOnGeometry(m: THREE.Mesh) {
-  console.log(m)
-  let center = new THREE.Vector3();
+function highlightPart(boundPart: any, highlight: boolean) {
+  boundPart.traverse((c: any) => {
+    if (c.isMesh) {
+      if (highlight) {
+        if (c.material?.name === "shown")
+          c.material = hover;
+        else
+          c.material = hiddenhover;
+      } else {
+        if (c.material?.name === "hover")
+          c.material = shown;
+        else
+          c.material = hidden;
+      }
+    }
+  });
+}
 
+function createPartsManifest(root: THREE.Object3D) {
+  const m = new Map()
+  root.traverse((p: THREE.Object3D) => {
+    const name = p.name.split('0')[0];
+    if (m.has(name))
+      m.get(name)?.push(p)
+    else
+      m.set(name, [p])
+  })
+  manifestResolver(m);
+}
+
+async function positionCameraOnGeometry(m: THREE.Object3D) {
+  let {center, size} = traversedBoundingBoxCenter(m);
+  orbit.target.copy(center);
+  console.log("new orbit", center, m);
+
+  // Calculate the size of the bounding box
+  const maxDim = Math.max(size.x, size.y, size.z);
+
+  // Adjust camera distance based on bounding box size
+  const fov = camera.fov * (Math.PI / 180); 
+  const distance = maxDim / (2 * Math.tan(fov / 2)) + .2;
+
+  orbit.maxDistance = distance;
+  orbit.minDistance = distance;
+
+  camera.updateProjectionMatrix();
+}
+
+function traversedBoundingBoxCenter(m: THREE.Object3D): {center: THREE.Vector3, size: THREE.Vector3} {
   const boundingBox = new THREE.Box3();
   const tempBox = new THREE.Box3();
-
-  // Traverse all children of the group
+  m.updateMatrixWorld(true);
   m.traverse((c: any) => {
     if (c.isMesh) {
       c.geometry.computeBoundingBox();
@@ -124,11 +130,13 @@ function positionCameraOnGeometry(m: THREE.Mesh) {
     }
   });
 
-  boundingBox.getCenter(center);
-  orbit.target = center;
-  orbit.maxDistance = 2;
-  orbit.minDistance = 2;
+  const center = new THREE.Vector3();
+  boundingBox.getCenter(center)
 
+  const size = new THREE.Vector3();
+  boundingBox.getSize(size);
+
+  return {center: center, size: size};
 }
 
 
@@ -155,7 +163,7 @@ export function init(node: HTMLCanvasElement) {
   // https://gainmap-creator.monogrid.com/
   const loader = new UltraHDRLoader();
   loader.setDataType(THREE.FloatType);
-  loader.load('3.jpg', t => {
+  loader.load('/3.jpg', t => {
     t.mapping = THREE.EquirectangularReflectionMapping;
     t.needsUpdate = true;
 
@@ -164,23 +172,23 @@ export function init(node: HTMLCanvasElement) {
     t.dispose();
   });
 
+  // const pr = new Promise((resolve, error) => {resolve("poop")});
+
   // OBJECT
-  const objLoader = new GLTFLoader();
-  objLoader.load('piston.glb', (root) => {
-    partsRoot = root.scene.children[0]
-    console.log(partsRoot);
+  new GLTFLoader().load('/piston.glb', async (root) => {
+    const mesh = root.scene.children[0];
 
-    partsRoot.scale.set(.4, .4, .4);
-    partsRoot.rotation.z += 1;
-    partsRoot.traverse((c: any) => { if (c.isMesh) c.material = mat; });
+    mesh.scale.set(.4, .4, .4);
+    mesh.rotation.z += 1;
+    mesh.traverse((c: any) => { if (c.isMesh) c.material = shown; });
 
-    currentlyViewedPart = partsRoot
-    scene.add(currentlyViewedPart);
+    scene.add(mesh);
+    createPartsManifest(mesh);
 
-    console.log(createPartsManifest());
-    currentlyViewedPart.children.forEach(c => { childNames.value.push(c.name); });
-    setTimeout(() => positionCameraOnGeometry(currentlyViewedPart), 100);
+    partsRootResolver(mesh)
   });
+
+  // setTimeout(async()=>positionCameraOnGeometry(await currentlyViewedPart), 1000);
 
   renderer.setAnimationLoop(animate);
 
@@ -196,27 +204,28 @@ export function init(node: HTMLCanvasElement) {
   bw.uniforms.u_resolution.value = new THREE.Vector2(window.innerWidth, window.innerHeight);
   composer.addPass(bw);
 
+  out = new OutputPass()
+  composer.addPass(out);
+
   window.addEventListener('resize', onWindowResize);
 }
 
 // RESIZE
 function onWindowResize() {
-
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
 
   bw.uniforms.u_resolution.value = new THREE.Vector2(window.innerWidth, window.innerHeight);
+
   pixel.setSize(window.innerWidth, window.innerHeight);
 
+  composer.setSize(window.innerWidth, window.innerHeight)
   renderer.setSize(window.innerWidth, window.innerHeight);
-
 }
 
 // ANIMATE
 function animate() {
 
   orbit.update();
-
   composer.render();
-
 }

@@ -1,5 +1,3 @@
-import { Vector3 } from "three";
-
 export const monoShader = {
 
 	name: 'monoShader',
@@ -8,7 +6,6 @@ export const monoShader = {
 
 		'tDiffuse': { value: null },
 		'u_resolution': {value: null},
-		'u_color': {value: new Vector3(0.6, 0.6, 0.6)},
 
 	},
 
@@ -28,7 +25,6 @@ export const monoShader = {
 		uniform sampler2D tDiffuse;
 		uniform vec2 u_resolution;
 		varying vec2 vUv;
-		uniform vec3 u_color;
 
 		void main() {
 				vec2 grid = step(vec2(0.0), sin((vUv.xy * u_resolution.xy * 3.141592) / 2.5 + 1.0) - 0.3);
