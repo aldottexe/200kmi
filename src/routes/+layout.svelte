@@ -42,7 +42,8 @@
     height: 100vh;
     pointer-events: all;
     image-rendering: pixelated;
-    /* filter: blur(1px); */
+    filter: blur(0.5px);
+    filter: blur(.75px);
   }
 
   :global .part {

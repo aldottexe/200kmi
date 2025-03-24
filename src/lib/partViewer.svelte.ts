@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 import { monoShader } from './monoPass';
-import { RenderPass, RenderPixelatedPass, ShaderPass, BloomPass, OutputPass} from 'three/examples/jsm/Addons.js';
+import { RenderPass, RenderPixelatedPass, ShaderPass, OutputPass} from 'three/examples/jsm/Addons.js';
 import { EffectComposer } from 'three/examples/jsm/Addons.js';
 
 import { GLTFLoader } from 'three/examples/jsm/Addons.js';
@@ -29,8 +29,21 @@ const hidden = new THREE.MeshBasicMaterial({ name: "hidden", color: 0x00eeff, tr
 const hiddenhover = new THREE.MeshBasicMaterial({ name: "hiddenHover", color: 0x00eeff, transparent: true, opacity: .6, })
 const shown = new THREE.MeshStandardMaterial({ name: "shown", metalness: .8, roughness: .6 })
 
+// MANIFEST
 let manifestResolver: Function;
 const manifest: Promise<Map<String, Array<THREE.Object3D>>> = new Promise(resolve => manifestResolver = resolve);
+
+function createPartsManifest(root: THREE.Object3D) {
+  const m = new Map()
+  root.traverse((p: THREE.Object3D) => {
+    const name = p.name.split('0')[0];
+    if (m.has(name))
+      m.get(name)?.push(p)
+    else
+      m.set(name, [p])
+  })
+  manifestResolver(m);
+}
 
 // BUTTON
 export async function partButton(node: HTMLAnchorElement, p: { part: string, i: number | undefined }) {
@@ -87,17 +100,6 @@ function highlightPart(boundPart: any, highlight: boolean) {
   });
 }
 
-function createPartsManifest(root: THREE.Object3D) {
-  const m = new Map()
-  root.traverse((p: THREE.Object3D) => {
-    const name = p.name.split('0')[0];
-    if (m.has(name))
-      m.get(name)?.push(p)
-    else
-      m.set(name, [p])
-  })
-  manifestResolver(m);
-}
 
 async function positionCameraOnGeometry(m: THREE.Object3D) {
   let {center, size} = traversedBoundingBoxCenter(m);
@@ -172,8 +174,6 @@ export function init(node: HTMLCanvasElement) {
     t.dispose();
   });
 
-  // const pr = new Promise((resolve, error) => {resolve("poop")});
-
   // OBJECT
   new GLTFLoader().load('/piston.glb', async (root) => {
     const mesh = root.scene.children[0];
@@ -187,10 +187,6 @@ export function init(node: HTMLCanvasElement) {
 
     partsRootResolver(mesh)
   });
-
-  // setTimeout(async()=>positionCameraOnGeometry(await currentlyViewedPart), 1000);
-
-  renderer.setAnimationLoop(animate);
 
   // EFFECTS
   composer = new EffectComposer(renderer);
@@ -208,6 +204,8 @@ export function init(node: HTMLCanvasElement) {
   composer.addPass(out);
 
   window.addEventListener('resize', onWindowResize);
+
+  renderer.setAnimationLoop(animate);
 }
 
 // RESIZE

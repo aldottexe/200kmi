@@ -5,7 +5,7 @@ export const monoShader = {
 	uniforms: {
 
 		'tDiffuse': { value: null },
-		'u_resolution': {value: null},
+		'u_resolution': { value: null },
 
 	},
 
@@ -19,6 +19,39 @@ export const monoShader = {
 			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
 
 		}`,
+
+	// fragmentShader: `
+	// 	uniform sampler2D tDiffuse;
+	// 	uniform vec2 u_resolution;
+	// 	varying vec2 vUv;
+	//
+	// 	void main() {
+	// 		// location in pixels
+	// 		vec2 pvUv = vUv * u_resolution.xy;
+	// 
+	// 		// location pixelated
+	// 		vec2 pvUvn = pvUv - mod(pvUv, vec2(8.0)) + 3.0;
+	//
+	// 		// location pixelated normalized
+	// 		pvUvn = pvUvn / u_resolution.xy;
+	//
+	// 		// the color of the pixel
+	// 		vec4 c = texture2D(tDiffuse, pvUvn);
+	//
+	// 		// create an rgb texture
+	// 		vec3 rgb = vec3(step(6.0, mod(pvUv.x, 8.0)), step(6.0, mod(pvUv.x + 2.0, 8.0)), step(6.0, mod(pvUv.x + 4.0, 8.0)));
+	//
+	// 		// make areas of low opacity max brightness
+	// 		rgb = rgb * c.rgb + (rgb * (1.0 - c.a));
+	//
+	// 		float a = dot(rgb, c.rgb);
+	//
+	// 		float gridMask = max(step(6.0, mod(pvUv.x + 6.0, 8.0)), step(6.0, mod(pvUv.y + 6.0, 8.0)));
+	//
+	// 		// gl_FragColor = vec4(, min(0.8, gridMask));
+	// 		gl_FragColor = vec4(mix(rgb, c.rgb, gridMask + .5), max(1.0 - gridMask, c.a) );
+	// 	}
+	// 	`,
 
 	fragmentShader: /* glsl */`
 
@@ -41,6 +74,6 @@ export const monoShader = {
 		    float o = min(1.0 - gray, texel.a + .1);
 				o = min(o, 1.0 - max(grid.x, grid.y));
 
-		    gl_FragColor = vec4(texel.rgb, 1) * o;
+		    gl_FragColor = vec4(texel.rgb * 0.09, 1) * o;
 		}`,
 };
