@@ -50,7 +50,7 @@
     margin-left: 40px;
 
     * {
-      font-family: helvetica;
+      font-family: ppEditorialNew-Ultralight;
       width: fit-content;
     }
 
@@ -59,6 +59,7 @@
       text-transform: uppercase;
       letter-spacing: -5px;
       margin-bottom: 20px;
+      font-weight: 400;
     }
     p {
       margin-left: 10px;
