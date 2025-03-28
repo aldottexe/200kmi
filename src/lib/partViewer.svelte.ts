@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 import { monoShader } from './monoPass';
-import { RenderPass, RenderPixelatedPass, ShaderPass, OutputPass} from 'three/examples/jsm/Addons.js';
+import { RenderPass, RenderPixelatedPass, ShaderPass, OutputPass } from 'three/examples/jsm/Addons.js';
 import { EffectComposer } from 'three/examples/jsm/Addons.js';
 
 import { GLTFLoader } from 'three/examples/jsm/Addons.js';
@@ -58,7 +58,7 @@ export async function queryPart(name: String, i: number | undefined = undefined)
     return (await manifest).get(name)[i]
 
   const currentbb = traversedBoundingBoxCenter(await currentlyViewedPart).center;
-  
+
   let closestInstance: THREE.Object3D = (await manifest).get(name)[0];
   let closestDistance = Number.MAX_VALUE;
 
@@ -74,12 +74,14 @@ export async function queryPart(name: String, i: number | undefined = undefined)
 }
 
 export async function selectPart(boundPart: THREE.Object3D) {
-  console.log("select part")
-  highlightPart(boundPart, false);
-  (await partsRoot).traverse((p: any) => { if (p.isMesh) p.material = hidden });
-  boundPart.traverse((p: any) => { if (p.isMesh) p.material = shown })
-  currentlyViewedPart = boundPart;
-  positionCameraOnGeometry(await currentlyViewedPart);
+  if (boundPart) {
+    console.log("select part")
+    highlightPart(boundPart, false);
+    (await partsRoot).traverse((p: any) => { if (p.isMesh) p.material = hidden });
+    boundPart.traverse((p: any) => { if (p.isMesh) p.material = shown })
+    currentlyViewedPart = boundPart;
+    positionCameraOnGeometry(await currentlyViewedPart);
+  }
 }
 
 function highlightPart(boundPart: any, highlight: boolean) {
@@ -102,7 +104,7 @@ function highlightPart(boundPart: any, highlight: boolean) {
 
 
 async function positionCameraOnGeometry(m: THREE.Object3D) {
-  let {center, size} = traversedBoundingBoxCenter(m);
+  let { center, size } = traversedBoundingBoxCenter(m);
   orbit.target.copy(center);
   console.log("new orbit", center, m);
 
@@ -110,7 +112,7 @@ async function positionCameraOnGeometry(m: THREE.Object3D) {
   const maxDim = Math.max(size.x, size.y, size.z);
 
   // Adjust camera distance based on bounding box size
-  const fov = camera.fov * (Math.PI / 180); 
+  const fov = camera.fov * (Math.PI / 180);
   const distance = maxDim / (2 * Math.tan(fov / 2)) + .2;
 
   orbit.maxDistance = distance;
@@ -119,7 +121,7 @@ async function positionCameraOnGeometry(m: THREE.Object3D) {
   camera.updateProjectionMatrix();
 }
 
-function traversedBoundingBoxCenter(m: THREE.Object3D): {center: THREE.Vector3, size: THREE.Vector3} {
+function traversedBoundingBoxCenter(m: THREE.Object3D): { center: THREE.Vector3, size: THREE.Vector3 } {
   const boundingBox = new THREE.Box3();
   const tempBox = new THREE.Box3();
   m.updateMatrixWorld(true);
@@ -138,7 +140,7 @@ function traversedBoundingBoxCenter(m: THREE.Object3D): {center: THREE.Vector3, 
   const size = new THREE.Vector3();
   boundingBox.getSize(size);
 
-  return {center: center, size: size};
+  return { center: center, size: size };
 }
 
 

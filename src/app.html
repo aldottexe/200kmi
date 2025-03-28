@@ -1,39 +1,49 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		%sveltekit.head%
-	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">%sveltekit.body%</div>
-	</body>
-	<style>
-		@font-face {
-			font-family: EditorialNew;
-			src: /fonts/PPEditorialNew-Regular.ofd;
-			font-weight: 700;
-		}
-		@font-face {
-			font-family: EditorialNew;
-			src: /fonts/PPEditorialNew-Italic.ofd;
-			font-weight: 700;
-			font-style: italic;
-		}
-		@font-face {
-			font-family: EditorialNew;
-			src: /fonts/PPEditorialNew-Ultralight.ofd;
-			font-weight: 400;
-		}
-		@font-face {
-			font-family: EditorialNew;
-			src: /fonts/PPEditorialNew-UltralightItalic.ofd;
-			font-weight: 400;
-			font-style: italic;
-		}
-		* {
-			font-family: PPEditorialNew-Italic;
-		}
-	</style>
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	%sveltekit.head%
+</head>
+
+<body data-sveltekit-preload-data="hover">
+	<div style="display: contents">%sveltekit.body%</div>
+</body>
+<style>
+	@import url("https://use.typekit.net/qaq4coq.css");
+
+	@font-face {
+		font-family: EditorialNew;
+		src: url(/fonts/PPEditorialNew-Regular.otf);
+		font-weight: 700;
+	}
+
+	@font-face {
+		font-family: EditorialNew;
+		src: url(/fonts/PPEditorialNew-Italic.otf);
+		font-weight: 700;
+		font-style: italic;
+	}
+
+	@font-face {
+		font-family: EditorialNew;
+		src: url(/fonts/PPEditorialNew-Ultralight.otf);
+		font-weight: 400;
+	}
+
+	@font-face {
+		font-family: EditorialNew;
+		src: url(/fonts/PPEditorialNew-UltralightItalic.otf);
+		font-weight: 400;
+		font-style: italic;
+	}
+
+	html {
+		margin: 0;
+		padding: 0;
+	}
+</style>
+
 </html>
