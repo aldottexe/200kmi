@@ -75,7 +75,6 @@ export async function queryPart(name: String, i: number | undefined = undefined)
 
 export async function selectPart(boundPart: THREE.Object3D) {
   if (boundPart) {
-    console.log("select part")
     highlightPart(boundPart, false);
     (await partsRoot).traverse((p: any) => { if (p.isMesh) p.material = hidden });
     boundPart.traverse((p: any) => { if (p.isMesh) p.material = shown })
@@ -106,7 +105,6 @@ function highlightPart(boundPart: any, highlight: boolean) {
 async function positionCameraOnGeometry(m: THREE.Object3D) {
   let { center, size } = traversedBoundingBoxCenter(m);
   orbit.target.copy(center);
-  console.log("new orbit", center, m);
 
   // Calculate the size of the bounding box
   const maxDim = Math.max(size.x, size.y, size.z);

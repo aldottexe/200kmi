@@ -1,13 +1,19 @@
 @use "vars" as *;
 
-* {
-  z-index: 2;
+h1, h2, h3, h4, a, p, button, input{
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
 }
 body { 
   background: $light;
   padding: 0;
   margin: 0;
   color: $dark;
+  & > * {
+    position: relative;
+    z-index: 2;
+  }
 }
 a, p, input{
   font-family: "neue-haas-grotesk-display", sans-serif;
@@ -15,9 +21,6 @@ a, p, input{
   font-style: normal;
   text-decoration: none;
   font-size: 18px;
-}
-p {
-  margin-top: 0;
 }
 p {
   margin-top: 0;

@@ -1,9 +1,8 @@
 @use "vars" as *;
 @import "global";
 
-
 section {
-    padding: 0 50px;
+  padding: 0 50px;
 }
 section:first-of-type {
   display: flex;
@@ -13,7 +12,7 @@ section:first-of-type {
   width: 100vw;
   box-sizing: border-box;
   padding-top: 80px;
-    padding-bottom: 50px;
+  padding-bottom: 50px;
   pointer-events: none;
 
   & > div {

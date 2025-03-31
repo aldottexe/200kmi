@@ -7,18 +7,20 @@
 
   let { children }: { children: Snippet } = $props();
 
-  const r = $derived(page.route.id?.split("/").pop());
+  const r = $derived(page.url.pathname?.split("/").pop());
 
   // @ts-expect-error
   $effect(async () => {
-      const p = await queryPart(r || "no-part");
-      await selectPart(p);
+    console.log(r);
+    console.log(page);
+    const p = await queryPart(r || "no-part");
+    await selectPart(p);
   });
 </script>
 
 <canvas use:init></canvas>
 
-<Nav/>
+<Nav />
 
 <div class="part">
   {@render children()}
@@ -40,7 +42,7 @@
     height: 100vh;
     pointer-events: auto;
     image-rendering: pixelated;
-    filter: blur(.5px);
+    filter: blur(0.5px);
     opacity: 80%;
   }
 </style>

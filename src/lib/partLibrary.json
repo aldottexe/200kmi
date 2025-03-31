@@ -1,0 +1,42 @@
+{
+  "piston": {
+    "title": "Piston",
+    "desc_short": "The *piston* turns the force of exploding gas and air into rotational motion through it’s connection to the *crank shaft*",
+    "desc_long": "The *piston* turns the force of exploding gas and air into kinetic energy used by the *engine*, this is a longer description.",
+    "parts": ["piston head", "connecting rod"],
+    "connecting": ["engine"],
+    "tags": ["combustion", "powertrain"]
+  },
+  "connecting-rod": {
+    "title": "Connecting Rod",
+    "desc_short":"The connecting rod links the piston to the crankshaft, converting the piston’s up-and-down motion into rotational force. A strong, well-functioning rod ensures smooth engine operation and power delivery.",
+    "desc_long":"",
+    "parts": [],
+    "connecting": ["piston head", "piston"],
+    "tags": ["combustion", "powertrain"]
+  },
+  "engine": {
+    "title": "Engine",
+    "desc_short":"The engine is the heart of your vehicle, converting fuel into motion. It houses pistons, valves, and other critical parts that work together to generate power and keep your car running smoothly.",
+    "desc_long":"",
+    "parts": ["piston", "block"],
+    "connecting": ["transmission"],
+    "tags": ["combustion", "powertrain"]
+  },
+  "block": {
+    "title": "Block",
+    "desc_short":"The thick metal housing that contains combusting fuel and air in your *engine*",
+    "desc_long":"",
+    "parts": [],
+    "connecting": ["piston", "engine"],
+    "tags": ["combustion"]
+  },
+  "piston-head": {
+    "title": "Piston Head",
+    "desc_short":"The piston head is the top surface of the piston, exposed to extreme heat and pressure. It helps seal the combustion chamber and plays a key role in efficient fuel burning and power generation.",
+    "desc_long":"",
+    "parts": [],
+    "connecting": ["piston", "block"],
+    "tags": ["combustion"]
+  }
+}

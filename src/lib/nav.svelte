@@ -51,14 +51,13 @@
         border-radius: 15px 0 0 15px;
       }
     }
-    a{
+    a {
       $colors: $green, $orange, $red;
       @for $i from 1 through length($colors) {
         &:nth-child(#{$i}):hover {
           background: nth($colors, $i);
         }
       }
-
     }
   }
   .search {

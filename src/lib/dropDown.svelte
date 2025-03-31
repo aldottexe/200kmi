@@ -79,10 +79,10 @@
     font-weight: 400;
     font-style: italic;
     text-decoration: none;
-  }
-  a:hover {
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
+    &:hover {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+    }
   }
   .drop-down {
     max-width: 75%;
