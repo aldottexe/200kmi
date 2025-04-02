@@ -2,10 +2,10 @@
   import { init } from "$lib/partViewer.svelte";
   import { selectPart, queryPart } from "$lib/partViewer.svelte";
   import { page } from "$app/state";
-  import { type Snippet } from "svelte";
   import Nav from "$lib/nav.svelte";
+  import type { LayoutProps } from "./$types";
 
-  let { children }: { children: Snippet } = $props();
+  let { children, data }: LayoutProps = $props();
 
   const r = $derived(page.url.pathname?.split("/").pop());
 
@@ -20,7 +20,7 @@
 
 <canvas use:init></canvas>
 
-<Nav />
+<Nav pageNames={data.pageNames} />
 
 <div class="part">
   {@render children()}

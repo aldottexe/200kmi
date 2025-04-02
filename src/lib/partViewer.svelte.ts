@@ -31,7 +31,7 @@ const shown = new THREE.MeshStandardMaterial({ name: "shown", metalness: .8, rou
 
 // MANIFEST
 let manifestResolver: Function;
-const manifest: Promise<Map<String, Array<THREE.Object3D>>> = new Promise(resolve => manifestResolver = resolve);
+export const manifest: Promise<Map<String, Array<THREE.Object3D>>> = new Promise(resolve => manifestResolver = resolve);
 
 function createPartsManifest(root: THREE.Object3D) {
   const m = new Map()
