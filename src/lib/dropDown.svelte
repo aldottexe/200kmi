@@ -81,7 +81,8 @@
     text-decoration: none;
     &:hover {
       text-decoration: underline;
-      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1.5px;
     }
   }
   .drop-down {

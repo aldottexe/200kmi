@@ -4,6 +4,7 @@ h1, h2, h3, h4, a, p, button, input{
   position: relative;
   z-index: 1;
   pointer-events: auto;
+  color: $dark;
 }
 body { 
   background: $light;
@@ -13,6 +14,11 @@ body {
   & > * {
     position: relative;
     z-index: 2;
+  }
+}
+:global {
+  body {
+  background: $light;
   }
 }
 a, p, input{

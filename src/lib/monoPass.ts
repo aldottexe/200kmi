@@ -71,9 +71,14 @@ export const monoShader = {
 		    float gray = dot(texel.rgb, vec3(0.229, 0.587, 0.114));
 		    gray = gray - mod(gray, 0.05);
 
-		    float o = min(1.0 - gray, texel.a + .1);
-				o = min(o, 1.0 - max(grid.x, grid.y));
+		    // float o = min(1.0 - gray, texel.a + .1);
+				// o = min(o, 1.0 - max(grid.x, grid.y));
+		    // gl_FragColor = vec4(texel.rgb * 0.09, 1) * o;
 
-		    gl_FragColor = vec4(texel.rgb * 0.09, 1) * o;
+		    float o = max(gray, .005);
+				o = min(o, 1.0 - max(grid.x, grid.y));
+				vec3 color = .7 * vec3(0, 1, .5) + .4 * texel.rgb;
+				// vec3 color = texel.rgb;
+		    gl_FragColor = vec4(color, 1) * o;
 		}`,
 };

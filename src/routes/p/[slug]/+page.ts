@@ -12,12 +12,12 @@ export function load({ params }) {
         throw new Error('Page not found');
     }
 
-    return{
-    title: pageData.title,
-    desc_short: pageData.desc_short,
-    desc_long: pageData.desc_long,
-    parts: pageData.parts,
-    connecting: pageData.connecting,
-    tags: pageData.tags,
-  };
+    return {
+        title: pageData.title,
+        desc_short: pageData.desc_short,
+        desc_long: pageData.desc_long,
+        parts: pageData.parts,
+        connecting: pageData.connecting,
+        tags: pageData.tags,
+    };
 }
