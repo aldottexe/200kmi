@@ -1,0 +1,212 @@
+{
+"how-to-change-oil": {
+  "title": "How to Do an Oil Change",
+  "intro": "Changing your car’s oil is one of the most important and basic maintenance tasks you can do to keep your engine running smoothly. It’s surprisingly easy once you get the hang of it, and doing it yourself can save you time and money. Here's a simple step-by-step guide to help you get started.",
+  "steps": [
+    {
+      "title": "Gather Your Tools and Materials",
+      "content": "You’ll need fresh oil (check your owner’s manual for type and amount), a new oil filter, a wrench or socket set, an oil filter wrench, a funnel, an oil catch pan, and gloves. Make sure your car is parked on a level surface and the engine is cool."
+    },
+    {
+      "title": "Lift the Car Safely",
+      "content": "Use a jack and jack stands (or ramps) to lift and secure the front of your car. Never work under a car supported only by a jack."
+    },
+    {
+      "title": "Drain the Old Oil",
+      "content": "Place the oil catch pan under the oil drain plug. Use a wrench to remove the plug and let the old oil drain completely. This may take a few minutes."
+    },
+    {
+      "title": "Remove and Replace the Oil Filter",
+      "content": "Use an oil filter wrench to remove the old oil filter. Some oil will spill, so keep the catch pan underneath. Before installing the new filter, rub a little new oil on the rubber gasket to ensure a proper seal. Screw the new filter in by hand—tight, but not too tight."
+    },
+    {
+      "title": "Add New Oil",
+      "content": "Replace the drain plug and make sure it’s secure. Then, open the hood and use a funnel to pour in the new oil. Again, check your manual for the correct amount."
+    },
+    {
+      "title": "Check Oil Level and Leaks",
+      "content": "Start the engine and let it run for a minute. Turn it off, wait a few minutes, then check the oil level with the dipstick and add more if necessary. Also, look under the car for any leaks around the filter or plug."
+    },
+    {
+      "title": "Dispose of Old Oil Properly",
+      "content": "Pour the old oil into a sealable container and take it, along with the old filter, to a recycling center or auto parts store that accepts used oil."
+    }
+  ],
+  "outro": "That’s it! Once you’ve done it a couple of times, an oil change will only take about 30–45 minutes. Doing it yourself not only saves money but also helps you understand your vehicle better. Keep a record of the date and mileage for your next change, and you’re good to go.",
+  "res": ["<iframe src=\"https://www.youtube.com/embed/O1hF25Cowv8?si=lk_Y_H53F0aBTH8e\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    "https://www.autozone.com/diy/motor-oil/easy-steps-to-change-your-oil",
+    "https://www.caranddriver.com/features/a27169631/how-to-change-oil-in-car/",
+  "<iframe src=\"https://www.youtube.com/embed/TnS53T3gcPg?si=e4jG9MNKhlFNdbll\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+  ]
+  },
+  "how-to-change-air-filter": {
+    "title": "How to Change Your Air Filter",
+    "intro": "Replacing your car’s air filter is a quick and easy task that can improve engine performance and fuel efficiency. It usually takes less than 10 minutes and requires no tools for most vehicles. Here’s how to do it yourself.",
+    "steps": [
+      {
+        "title": "Locate the Air Filter Box",
+        "content": "Open your car’s hood and look for a black plastic box near the engine with metal clips or screws—it’s usually square or rectangular and connected to a large air intake hose."
+      },
+      {
+        "title": "Open the Air Filter Box",
+        "content": "Unclip or unscrew the lid of the air filter box. Carefully lift it to expose the air filter inside. You may need to move some hoses or covers out of the way, depending on your car model."
+      },
+      {
+        "title": "Remove the Old Air Filter",
+        "content": "Take out the old air filter and note how it was positioned. Inspect it for excessive dirt or damage to confirm it needs replacing."
+      },
+      {
+        "title": "Insert the New Air Filter",
+        "content": "Place the new air filter into the box in the same orientation as the old one. Make sure it fits snugly and seals all the edges to prevent unfiltered air from entering the engine."
+      },
+      {
+        "title": "Close the Air Filter Box",
+        "content": "Secure the lid back in place using the clips or screws you removed. Double-check that it’s sealed properly and everything is reattached."
+      }
+    ],
+    "outro": "That’s it! A clean air filter helps your engine breathe better, which can improve performance and gas mileage. Most manufacturers recommend replacing it every 12,000 to 15,000 miles, but always check your owner’s manual for the right schedule for your car.",
+    "res": [
+      "<iframe src=\"https://www.youtube.com/embed/vRPyjKw6LeA?si=RZQiCcOQPlxXB54L\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+      "https://www.autozone.com/diy/filters/how-to-replace-your-air-filter",
+      "https://www.wikihow.com/Change-Your-Air-Filter"
+    ]
+  },
+  "how-to-change-tire": {
+    "title": "How to Change a Tire",
+    "intro": "Getting a flat tire can be frustrating, but changing it is a straightforward process if you’re prepared. With the right tools and a little know-how, you can get back on the road quickly and safely. Here's how to change a tire step-by-step.",
+    "steps": [
+      {
+        "title": "Find a Safe Location",
+        "content": "As soon as you notice a flat, slow down and pull over to a safe, flat area away from traffic. Turn on your hazard lights and apply the parking brake."
+      },
+      {
+        "title": "Gather Your Tools",
+        "content": "You’ll need a spare tire, jack, lug wrench, and your vehicle’s owner’s manual. These are usually found in the trunk or under a storage panel."
+      },
+      {
+        "title": "Loosen the Lug Nuts",
+        "content": "Before lifting the car, use the lug wrench to turn the lug nuts counterclockwise. Loosen them slightly, but don’t remove them yet."
+      },
+      {
+        "title": "Lift the Car with the Jack",
+        "content": "Place the jack under the vehicle’s designated jacking point (usually marked along the frame). Raise the car until the flat tire is about 6 inches off the ground."
+      },
+      {
+        "title": "Remove the Flat Tire",
+        "content": "Fully unscrew and remove the loosened lug nuts, then carefully pull the flat tire straight off the wheel bolts."
+      },
+      {
+        "title": "Mount the Spare Tire",
+        "content": "Line up the holes in the spare tire with the wheel bolts and slide it into place. Push it in until it sits flush against the hub."
+      },
+      {
+        "title": "Tighten the Lug Nuts by Hand",
+        "content": "Put the lug nuts back on and tighten them by hand in a crisscross pattern. Don’t fully tighten yet—just enough to hold the tire in place."
+      },
+      {
+        "title": "Lower the Car and Fully Tighten",
+        "content": "Carefully lower the car back to the ground with the jack. Once it’s fully lowered, use the lug wrench to tighten the nuts as firmly as possible, again in a crisscross pattern."
+      },
+      {
+        "title": "Check the Tire Pressure",
+        "content": "If you have a tire pressure gauge, check the spare tire’s pressure to make sure it’s safe to drive on. Many spares have a higher PSI than regular tires."
+      }
+    ],
+    "outro": "And you're done! Drive cautiously and avoid high speeds—most spare tires (especially donuts) are meant for short-term use only. Replace it with a full-size tire as soon as possible, and make sure to have your flat repaired or replaced.",
+    "res": ["<iframe src=\"https://www.youtube.com/embed/314HE4aMG-g?si=AnqwI1_mFY05Wu4u\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    "https://www.aaa.com/autorepair/articles/car-maintenance/how-to-change-a-tire-in-11-easy-steps",
+    "https://www.homedepot.com/c/ah/how-to-change-a-tire/9ba683603be9fa5395fab908e21cabb"
+    ]
+  },
+  "how-to-replace-headlight": {
+    "title": "How to Replace a Headlight",
+    "intro": "A burned-out headlight isn't just inconvenient—it’s a safety hazard and could even get you a ticket. Replacing a headlight is usually a simple task you can do yourself with minimal tools. Headlights are labeled with codes like H11, 9005, or H7, which refer to the bulb type and base design. These codes are often printed on the bulb or found in your owner’s manual. There are also different types of bulbs: **halogen** (most common), **LED**, and **HID (xenon)**. Always replace a bulb with one of the same type for compatibility.",
+    "steps": [
+      {
+        "title": "Identify the Correct Bulb",
+        "content": "Check your owner’s manual or the existing bulb for the correct type (e.g., H11, 9005). Make sure to buy the right replacement bulb for your car’s make and model."
+      },
+      {
+        "title": "Open the Hood and Locate the Headlight Assembly",
+        "content": "Pop the hood and find the back of the headlight assembly. You’ll see a wiring connector going into a bulb socket—this is the part you’ll be removing."
+      },
+      {
+        "title": "Disconnect the Power Connector",
+        "content": "Gently unplug the electrical connector by pressing the release tab and pulling it straight back. If it’s stuck, wiggle it gently—don’t force it."
+      },
+      {
+        "title": "Remove the Old Bulb",
+        "content": "Twist the bulb socket counterclockwise (usually a quarter turn) and pull it out. Avoid touching the glass part of halogen bulbs, as oils from your skin can damage them."
+      },
+      {
+        "title": "Install the New Bulb",
+        "content": "Insert the new bulb into the socket and twist it clockwise to lock it in place. Reconnect the power plug until it clicks securely."
+      },
+      {
+        "title": "Test the New Headlight",
+        "content": "Turn on your headlights to make sure the new bulb is working. If it's not lighting up, double-check the connection or try flipping the bulb if it’s an LED (some only work in one orientation)."
+      },
+      {
+        "title": "Repeat for the Other Side (Optional)",
+        "content": "If one bulb has burned out, the other may be close behind. Consider replacing both at the same time for consistent brightness and lifespan."
+      }
+    ],
+    "outro": "Replacing a headlight is a quick and inexpensive fix that improves both your safety and visibility. Just make sure to use the correct bulb type and handle bulbs carefully—especially halogens. If your headlight housing is foggy or the bulb still seems dim, it might be time to clean or replace the headlight lens too.",
+    "res": [
+      "<iframe src=\"https://www.youtube.com/embed/HO3IXM3XkUU?si=kMUrjXdTdkx549o_\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+      "https://shop.advanceautoparts.com/c4/headlight-bulb/-49999228?utm_source=bing&utm_medium=cpc&utm_campaign=b_txt_nbd_lighting_gen_gen_gen_evergreen_eng_aap_us_phr&&&&&&msclkid=0a4e2624dac11f178b6e41dcf7a74476&utm_source=bing&utm_medium=cpc&utm_campaign=b_txt_nbd_lighting_gen_gen_gen_evergreen_eng_aap_us_phr&utm_term=replacement%20headlight%20bulbs&utm_content=headlight%20bulbs%20and%20assemblies&gclid=0a4e2624dac11f178b6e41dcf7a74476&gclsrc=3p.ds&gad_source=7",
+      "https://www.autozone.com/diy/lighting/how-to-change-headlights"
+    ]
+  },
+  "how-to-change-battery": {
+    "title": "How to Change a Car Battery",
+    "intro": "Your car’s battery is essential for starting the engine and powering electronics. If your battery is old or struggling to hold a charge, replacing it is a straightforward process you can do yourself with just a few tools. Car batteries are usually labeled with a group size (like 24F or 35) that indicates the battery’s physical dimensions and terminal layout—make sure to get the right one for your car.",
+    "steps": [
+      {
+        "title": "Park Safely and Turn Off the Car",
+        "content": "Park on a flat surface, turn off the engine, and remove the keys. For extra safety, engage the parking brake and wear gloves and safety glasses."
+      },
+      {
+        "title": "Open the Hood and Locate the Battery",
+        "content": "Pop the hood and find the battery—it’s usually a rectangular box with two thick cables connected to the top or side. Note the positions of the positive (+) and negative (–) terminals."
+      },
+      {
+        "title": "Disconnect the Negative Cable First",
+        "content": "Using a wrench, loosen the nut on the black (negative) terminal and pull the cable off. Always disconnect the negative cable first to prevent electrical shorts."
+      },
+      {
+        "title": "Disconnect the Positive Cable",
+        "content": "Next, loosen the nut on the red (positive) terminal and remove the cable. Be careful not to touch any metal tools to other parts of the car while doing this."
+      },
+      {
+        "title": "Remove the Old Battery",
+        "content": "If there's a hold-down bracket or strap, remove it. Then carefully lift the battery straight up—it can be heavy, so use both hands or a battery carrying strap if available."
+      },
+      {
+        "title": "Clean the Battery Tray and Terminals",
+        "content": "Use a battery cleaning brush or a mix of baking soda and water to clean any corrosion from the tray and cable connectors. Dry everything thoroughly."
+      },
+      {
+        "title": "Install the New Battery",
+        "content": "Place the new battery into the tray with the terminals in the same orientation as before. Secure it with the hold-down bracket or strap."
+      },
+      {
+        "title": "Reconnect the Positive Cable First",
+        "content": "Attach the red (positive) cable to the positive terminal and tighten the nut. Make sure the connection is snug but don’t over-tighten."
+      },
+      {
+        "title": "Reconnect the Negative Cable",
+        "content": "Attach the black (negative) cable to the negative terminal and tighten it securely."
+      },
+      {
+        "title": "Test the New Battery",
+        "content": "Start the car to make sure everything is working properly. If the engine starts smoothly and the dashboard lights are normal, you’ve done it right!"
+      }
+    ],
+    "outro": "Changing your car battery yourself can save you time and money, and it’s a great way to learn more about your vehicle. Just remember to dispose of the old battery properly—most auto parts stores will recycle it for free when you buy a new one.",
+    "res": ["<iframe src=\"https://www.youtube.com/embed/YC--MLNIbik?si=aXPwNv6tYbEpZrSv\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    "<iframe src=\"https://www.youtube.com/embed/JHo9RG0FXwQ?si=l5d9B8iraAraY5gM\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    "https://www.autozone.com/diy/battery/how-to-replace-a-car-battery"
+    ]
+  }
+}

@@ -50,8 +50,8 @@
   </div>
   <div class="center-bar">
     <div class="center-buttons">
-      <a href="/p/piston">Common Maintinance</a>
-      <a href="/p/engine">Parts Library</a>
+      <a href="/maintenance">Common Maintinance</a>
+      <a href="/p">Parts Library</a>
       <a href="">Core Sytems</a>
       <input
         class="search"
@@ -90,7 +90,7 @@
   @use "styles/vars" as *;
   @import "styles/global";
 
-  $height: 35px;
+  $height: 45px;
 
   nav {
     position: fixed;
@@ -116,37 +116,38 @@
   .center-buttons {
     display: flex;
     justify-content: center;
+    background: $light2;
+    border-radius: 15px;
     & > * {
       height: 100%;
       vertical-align: center;
       border-color: $dark;
-      background: $light2;
       height: $height;
       padding: 0 30px;
       display: inline-flex;
       align-items: center;
-
-      &:first-child {
-        border-radius: 15px 0 0 15px;
-      }
+      box-sizing: border-box;
     }
     a {
+      border: 5px $light2 solid;
+      border-radius: 15px;
       $colors: $green, $orange, $red;
       @for $i from 1 through length($colors) {
         &:nth-child(#{$i}):hover {
           background: nth($colors, $i);
+          color: $light2;
         }
       }
     }
   }
   .search {
-    border-radius: 0 10px 10px 0;
+    border-radius: 0 15px 15px 0;
     background-color: $purple;
     color: $dark;
   }
   .suggestions {
     width: 100%;
-    background: $light;
+    background: $light2;
     box-sizing: border-box;
     padding: 5px;
     margin-top: 10px;
@@ -167,6 +168,7 @@
     font-size: 13px;
     line-height: 20px;
     padding: 0;
+    padding: 10px;
     border: none;
     outline: none;
     &::placeholder {

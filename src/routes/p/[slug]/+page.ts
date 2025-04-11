@@ -3,8 +3,7 @@ import * as partLibrary from '$lib/partLibrary.json';
 /** @type {import('./$types').PageLoad} */
 export function load({ params }) {
     const { slug } = params;
-    console.log("page-slug:", slug);
-    console.log("whole-library:", partLibrary);
+
     const pageData = partLibrary.default[slug];
     console.log("page-data: ", pageData);
 

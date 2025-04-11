@@ -1,9 +1,9 @@
 <script>
-const {children} = $props();
+  const { children } = $props();
 </script>
 
 {@render children()}
 
 <style lang="scss">
-  @import "$lib/styles/part"
+  @use "$lib/styles/part";
 </style>

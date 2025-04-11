@@ -111,10 +111,14 @@ async function positionCameraOnGeometry(m: THREE.Object3D) {
 
   // Adjust camera distance based on bounding box size
   const fov = camera.fov * (Math.PI / 180);
-  const distance = maxDim / (2 * Math.tan(fov / 2)) + .2;
+  const distance = maxDim / (2 * Math.tan(fov / 2));
 
-  orbit.maxDistance = distance;
-  orbit.minDistance = distance;
+  orbit.enabled = false;
+  camera.position.setY(center.y);
+  orbit.enabled = true;
+
+  orbit.maxDistance = distance + .5;
+  orbit.minDistance = distance + .5;
 
   camera.updateProjectionMatrix();
 }

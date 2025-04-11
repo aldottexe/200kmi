@@ -7,9 +7,15 @@
 
 <section>
   <div>
-    <div>
+    <div class="tags">
       {#each data.tags as item}
-        <p>{item}</p>
+        <img
+          src="../ci/{item}.svg"
+          alt={item}
+          style:transform="translateX({Math.random() * 3}px) translateY({Math.random() *
+            3}px)"
+          style:rotate="{Math.random() * 4 - 2}deg"
+        />
       {/each}
     </div>
     <div>
@@ -41,7 +47,7 @@
 </section>
 
 <section>
-  <h2>How’s it work</h2>
+  <h2>How’s it work?</h2>
   <p>
     {#each data.desc_long.split("*") as chunk, i}
       {#if i % 2}
@@ -53,6 +59,6 @@
   </p>
 </section>
 
-<style>
-  @import "/src/lib/styles/part.scss";
+<style lang="scss">
+  @use "/src/lib/styles/part.scss";
 </style>

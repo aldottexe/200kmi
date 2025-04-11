@@ -33,7 +33,7 @@
 
 <style lang="scss">
   @use "styles/vars" as *;
-  @import "styles/global";
+  @use "styles/global";
 
   .header {
     display: flex;
@@ -53,10 +53,10 @@
     font-size: unset;
 
     svg {
-      width: 60px;
-      height: 60px;
+      width: 40px;
+      aspect-ratio: 1/1;
       transition: rotate 0.2s ease-in-out;
-      stroke-width: 2px;
+      stroke-width: 3px;
     }
   }
   .content {
@@ -86,7 +86,7 @@
     }
   }
   .drop-down {
-    max-width: 75%;
+    max-width: 700px;
     margin-bottom: 30px;
   }
 </style>

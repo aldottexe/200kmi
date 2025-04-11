@@ -1,0 +1,109 @@
+<script lang="ts">
+  import type { PageProps } from "./$types";
+  let { data }: PageProps = $props();
+  function parseSiteName(r: string): string {
+    return r.match(/(?<=https?:\/\/)[^/]+/)[0];
+  }
+</script>
+
+<div class="m10p">
+  <h1>{data.title}</h1>
+  <div class="content">
+    <article>
+      <p>{@html data.intro}</p>
+
+      <ol>
+        {#each data.steps as step}
+          <li>
+            <h2>{step.title}</h2>
+            <p>{@html step.content}</p>
+          </li>
+        {/each}
+      </ol>
+
+      <p>{@html data.outro}</p>
+    </article>
+
+    <div class="res">
+      <h2>Resources</h2>
+      {#each data.res as i}
+        {#if i.startsWith("http")}
+          <a href={i}>{parseSiteName(i)}</a>
+        {:else}
+          <div>
+            {@html i}
+          </div>
+        {/if}
+      {/each}
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  @use "$lib/styles/global.scss" as *;
+  @use "$lib/styles/vars.scss" as *;
+  li {
+    counter-increment: list-c;
+    position: relative;
+    &::before {
+      @extend h2;
+      content: counter(list-c);
+      transform: scale(0.8);
+
+      display: grid;
+      position: absolute;
+      left: -90px;
+      top: -7px;
+
+      box-sizing: border-box;
+      width: 80px;
+      height: 80px;
+      padding: 5px 3px 0 0;
+
+      place-items: center;
+      border-radius: 50px;
+      border: 2px $dark solid;
+    }
+  }
+  ol {
+    list-style: none;
+    counter-reset: list-c;
+  }
+  .m10p {
+    padding-top: 150px;
+  }
+  article {
+    max-width: 700px;
+  }
+  p {
+    margin-bottom: 80px;
+    padding-left: 10px;
+  }
+  h1 {
+    line-height: 1.1;
+    margin-bottom: 80px;
+  }
+  .content {
+    display: flex;
+    column-gap: 80px;
+    @media (max-width: 1200px) {
+      flex-direction: column;
+    }
+  }
+  .res {
+    position: sticky;
+    top: 80px;
+    height: fit-content;
+    * {
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+  a {
+    margin-bottom: 5px;
+    color: $blue;
+    &:hover {
+      color: $purple;
+    }
+  }
+</style>

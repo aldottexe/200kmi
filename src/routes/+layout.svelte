@@ -13,7 +13,7 @@
   $effect(async () => {
     console.log(r);
     console.log(page);
-    const p = await queryPart(r || "no-part");
+    const p = await queryPart(r || "engine");
     await selectPart(p);
   });
 </script>
@@ -41,7 +41,6 @@
     width: 100vw;
     height: 100vh;
     pointer-events: auto;
-    image-rendering: pixelated;
     filter: blur(0.5px);
     opacity: 80%;
   }

@@ -4,23 +4,31 @@
 section {
   padding: 0 50px;
 }
+.tags {
+  position: relative;
+  display: flex;
+  gap: 30px;
+  img {
+    max-width: 150px;
+    max-height: 100px;
+  }
+}
+
 section:first-of-type {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   box-sizing: border-box;
   padding-top: 80px;
   padding-bottom: 50px;
   pointer-events: none;
 
   & > div {
-
     & > * {
       pointer-events: auto;
     }
-
     // styles for all lists 
     display: flex;
     justify-content: space-between;
@@ -44,12 +52,14 @@ section:first-of-type {
     line-height: .92;
   }
 }
+
 h2 {
   color: $orange;
 }
+
 section:nth-child(2) {
   margin-top: 50px;
   p {
-    max-width: 33%;
+    max-width: 700px;
   }
 }
