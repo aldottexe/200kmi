@@ -20,6 +20,7 @@
     margin-bottom: 10px;
     color: $blue;
     display: block;
+    font-size: $pSize;
     &:hover {
       color: $purple;
     }

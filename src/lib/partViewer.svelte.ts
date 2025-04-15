@@ -14,14 +14,15 @@ let partsRootResolver: Function;
 let partsRoot: Promise<THREE.Mesh> = new Promise(resolve => partsRootResolver = resolve)
 
 // the currently viewed part, resolves when partsRoot does.
-let currentlyViewedPart: Promise<THREE.Mesh> = new Promise(async resolve => resolve(await partsRoot));
+let currentlyViewedPart: Promise<THREE.Mesh> | THREE.Object3D = new Promise(async resolve => resolve(await partsRoot));
 
 let camera: THREE.PerspectiveCamera, scene: THREE.Scene, renderer: THREE.WebGLRenderer;
+let orbit: OrbitControls;
 let composer: EffectComposer;
 let bw: ShaderPass;
 let pixel: RenderPixelatedPass;
-let orbit: OrbitControls;
 let out: OutputPass;
+
 
 // MATERIALS
 const hover = new THREE.MeshBasicMaterial({ name: "hover", color: 0x00eeff })
@@ -44,21 +45,48 @@ function createPartsManifest(root: THREE.Object3D) {
   })
   manifestResolver(m);
 }
+export async function navigate(url: String) {
+  if(!url)
+    return;
+  let r = url.split("/").pop()
+  const p = await queryPart(r || "");
+  if(r === "p" || r === "") {
+    (await partsRoot).visible = true;
+    selectPart(await partsRoot);
+    orbit.enabled = false;
+    return; 
+  }
+  if(p) {
+    (await partsRoot).visible = true;
+    await selectPart(p);
+    orbit.enabled = true;
+  } else
+    (await partsRoot).visible = false;
+}
 
 // BUTTON
 export async function partButton(node: HTMLAnchorElement, p: { part: string, i: number | undefined }) {
   const boundPart = await queryPart(p.part, p.i);
-  node.addEventListener("mouseenter", () => highlightPart(boundPart, true));
-  node.addEventListener("mouseleave", () => highlightPart(boundPart, false));
+  if (boundPart) {
+    node.addEventListener("mouseenter", () => highlightPart(boundPart, true));
+    node.addEventListener("mouseleave", () => highlightPart(boundPart, false));
+  }
 }
 
-export async function queryPart(name: String, i: number | undefined = undefined): Promise<THREE.Object3D> {
+export async function queryPart(name: String, i: number | undefined = undefined): Promise<THREE.Object3D | undefined> {
   name = name.replaceAll(/-| /g, '_');
+
+  if (!(await manifest).has(name))
+    return undefined;
+
+  //@ts-expect-error
   if (i && (await manifest).get(name)[i])
+    //@ts-expect-error
     return (await manifest).get(name)[i]
 
   const currentbb = traversedBoundingBoxCenter(await currentlyViewedPart).center;
 
+  //@ts-expect-error
   let closestInstance: THREE.Object3D = (await manifest).get(name)[0];
   let closestDistance = Number.MAX_VALUE;
 
@@ -83,7 +111,7 @@ export async function selectPart(boundPart: THREE.Object3D) {
   }
 }
 
-function highlightPart(boundPart: any, highlight: boolean) {
+function highlightPart(boundPart: THREE.Object3D, highlight: boolean) {
   boundPart.traverse((c: any) => {
     if (c.isMesh) {
       if (highlight) {
@@ -113,9 +141,10 @@ async function positionCameraOnGeometry(m: THREE.Object3D) {
   const fov = camera.fov * (Math.PI / 180);
   const distance = maxDim / (2 * Math.tan(fov / 2));
 
+  const orbitEnabled = orbit.enabled;
   orbit.enabled = false;
   camera.position.setY(center.y);
-  orbit.enabled = true;
+  orbit.enabled = orbitEnabled;
 
   orbit.maxDistance = distance + .5;
   orbit.minDistance = distance + .5;
@@ -227,7 +256,6 @@ function onWindowResize() {
 
 // ANIMATE
 function animate() {
-
   orbit.update();
   composer.render();
 }

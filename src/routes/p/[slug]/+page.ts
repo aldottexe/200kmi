@@ -5,7 +5,6 @@ export function load({ params }) {
     const { slug } = params;
 
     const pageData = partLibrary.default[slug];
-    console.log("page-data: ", pageData);
 
     if (!pageData) {
         throw new Error('Page not found');

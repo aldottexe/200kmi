@@ -1,23 +1,19 @@
 <script lang="ts">
   import { init } from "$lib/partViewer.svelte";
-  import { selectPart, queryPart } from "$lib/partViewer.svelte";
+  import { navigate } from "$lib/partViewer.svelte";
   import { page } from "$app/state";
   import Nav from "$lib/nav.svelte";
   import type { LayoutProps } from "./$types";
 
   let { children, data }: LayoutProps = $props();
 
-  const r = $derived(page.url.pathname?.split("/").pop());
-
   // @ts-expect-error
   $effect(async () => {
-    console.log(r);
-    console.log(page);
-    const p = await queryPart(r || "engine");
-    await selectPart(p);
+    navigate(page.url.pathname);
   });
 </script>
 
+<svelte:window />
 <canvas use:init></canvas>
 
 <Nav pageNames={data.pageNames} />

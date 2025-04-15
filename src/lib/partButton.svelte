@@ -22,6 +22,7 @@
   a {
     margin-bottom: 5px;
     color: $blue;
+    font-size: $pSize;
     &:hover {
       color: $purple;
     }

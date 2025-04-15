@@ -90,7 +90,7 @@
   @use "styles/vars" as *;
   @import "styles/global";
 
-  $height: 45px;
+  $height: 35px;
 
   nav {
     position: fixed;
