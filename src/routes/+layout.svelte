@@ -9,6 +9,7 @@
 
   // @ts-expect-error
   $effect(async () => {
+    console.log("new page", page.url.pathname);
     navigate(page.url.pathname);
   });
 </script>

@@ -6,23 +6,20 @@ import { EffectComposer } from 'three/examples/jsm/Addons.js';
 
 import { GLTFLoader } from 'three/examples/jsm/Addons.js';
 import { UltraHDRLoader } from 'three/addons/loaders/UltraHDRLoader.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
 
 let partsRootResolver: Function;
 // the root of all the parts
 let partsRoot: Promise<THREE.Mesh> = new Promise(resolve => partsRootResolver = resolve)
+let targetorigin = new THREE.Vector3(0, 0, 0);
 
 // the currently viewed part, resolves when partsRoot does.
 let currentlyViewedPart: Promise<THREE.Mesh> | THREE.Object3D = new Promise(async resolve => resolve(await partsRoot));
 
 let camera: THREE.PerspectiveCamera, scene: THREE.Scene, renderer: THREE.WebGLRenderer;
-let orbit: OrbitControls;
 let composer: EffectComposer;
 let bw: ShaderPass;
 let pixel: RenderPixelatedPass;
 let out: OutputPass;
-
 
 // MATERIALS
 const hover = new THREE.MeshBasicMaterial({ name: "hover", color: 0x00eeff })
@@ -46,31 +43,31 @@ function createPartsManifest(root: THREE.Object3D) {
   manifestResolver(m);
 }
 export async function navigate(url: String) {
-  if(!url)
+  if (!url)
     return;
   let r = url.split("/").pop()
   const p = await queryPart(r || "");
-  if(r === "p" || r === "") {
+  if (r === "p" || r === "") {
     (await partsRoot).visible = true;
     selectPart(await partsRoot);
-    orbit.enabled = false;
-    return; 
+    return;
   }
-  if(p) {
+  if (p) {
     (await partsRoot).visible = true;
     await selectPart(p);
-    orbit.enabled = true;
-  } else
-    (await partsRoot).visible = false;
+    return;
+  }
+  (await partsRoot).visible = false;
 }
 
 // BUTTON
-export async function partButton(node: HTMLAnchorElement, p: { part: string, i: number | undefined }) {
-  const boundPart = await queryPart(p.part, p.i);
-  if (boundPart) {
-    node.addEventListener("mouseenter", () => highlightPart(boundPart, true));
-    node.addEventListener("mouseleave", () => highlightPart(boundPart, false));
-  }
+export function partButton(node: HTMLAnchorElement, p: { part: string, i: number | undefined }) {
+  queryPart(p.part, p.i).then((boundPart) => {
+    if (boundPart) {
+      node.addEventListener("mouseenter", () => highlightPart(boundPart, true));
+      node.addEventListener("mouseleave", () => highlightPart(boundPart, false));
+    }
+  });
 }
 
 export async function queryPart(name: String, i: number | undefined = undefined): Promise<THREE.Object3D | undefined> {
@@ -107,7 +104,7 @@ export async function selectPart(boundPart: THREE.Object3D) {
     (await partsRoot).traverse((p: any) => { if (p.isMesh) p.material = hidden });
     boundPart.traverse((p: any) => { if (p.isMesh) p.material = shown })
     currentlyViewedPart = boundPart;
-    positionCameraOnGeometry(await currentlyViewedPart);
+    positionModelAtPart(await currentlyViewedPart);
   }
 }
 
@@ -130,29 +127,104 @@ function highlightPart(boundPart: THREE.Object3D, highlight: boolean) {
 }
 
 
-async function positionCameraOnGeometry(m: THREE.Object3D) {
-  let { center, size } = traversedBoundingBoxCenter(m);
-  orbit.target.copy(center);
+async function positionModelAtPartOld(m: THREE.Object3D) {
+
+  const rootPosition = (await partsRoot).position.setScalar(0);
+  (await partsRoot).updateMatrixWorld();
+
+  let { center, size, box }: { center: THREE.Vector3, size: THREE.Vector3, box: THREE.Box3 } = traversedBoundingBoxCenter(m);
+
+  // // Calculate the size of the bounding box
+  const maxDim = Math.max(size.x, size.y, size.z);
+
+  (await partsRoot).position.sub(center.multiplyScalar(1 / maxDim));
+  (await partsRoot).scale.multiplyScalar(1 / maxDim);
+
+  (await partsRoot).updateMatrixWorld();
+
+  (() => {
+    let { center, size, box }: { center: THREE.Vector3, size: THREE.Vector3, box: THREE.Box3 } = traversedBoundingBoxCenter(m);
+    const helper = new THREE.Box3Helper(box)
+    scene.add(helper);
+    const maxDim = Math.max(size.x, size.y, size.z);
+    console.log("post translation center(", center, ")post translation scale(", maxDim, ")")
+    setTimeout(() => { helper.removeFromParent(); helper.dispose() }, 1000);
+  })();
+
+  function bh() {
+    const helper = new THREE.Box3Helper(box)
+    scene.add(helper);
+    setTimeout(() => { helper.removeFromParent(); helper.dispose() }, 1000);
+  }
+}
+
+async function positionModelAtPart(m: THREE.Object3D) {
+
+  const scale = 1.5;
+
+  const rootCenter = (await partsRoot).position;
+
+
+  let { center, size, box }: { center: THREE.Vector3, size: THREE.Vector3, box: THREE.Box3 } = traversedBoundingBoxCenter(m);
+
+  // draw first box
+  bh(box);
 
   // Calculate the size of the bounding box
   const maxDim = Math.max(size.x, size.y, size.z);
 
-  // Adjust camera distance based on bounding box size
-  const fov = camera.fov * (Math.PI / 180);
-  const distance = maxDim / (2 * Math.tan(fov / 2));
+  // rootPos B
+  // center A
+  // B + (A - B) * s
+  const targetOrigin = center.clone()
+  targetOrigin.sub(rootCenter);
+  targetOrigin.multiplyScalar(scale / maxDim);
+  targetOrigin.add(rootCenter);
+  // update the position
+  (await partsRoot).position.sub(targetOrigin);
 
-  const orbitEnabled = orbit.enabled;
-  orbit.enabled = false;
-  camera.position.setY(center.y);
-  orbit.enabled = orbitEnabled;
+  // scale it
+  (await partsRoot).scale.multiplyScalar(scale / maxDim);
+  // update matrix world
+  (await partsRoot).updateMatrixWorld();
 
-  orbit.maxDistance = distance + .5;
-  orbit.minDistance = distance + .5;
+  const newBox = traversedBoundingBoxCenter(m).box;
+  const newCenter = new THREE.Vector3();
+  newBox.getCenter(newCenter);
 
-  camera.updateProjectionMatrix();
+  ln(newCenter, center);
+  bh(newBox, 200);
+  circle(newCenter);
+
+  function ln(p1: THREE.Vector3, p2: THREE.Vector3) {
+    const geometry = new THREE.BufferGeometry().setFromPoints([p1, p2]);
+    const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    const line = new THREE.Line(geometry, material);
+    scene.add(line);
+
+    scene.add(line);
+    setTimeout(() => { line.removeFromParent(); line.dispose() }, 500);
+  }
+
+  function bh(b: THREE.Box3, delay: number = 0) {
+    setTimeout(() => {
+      const helper = new THREE.Box3Helper(b, 0xff0000)
+      scene.add(helper);
+      setTimeout(() => { helper.removeFromParent(); helper.dispose() }, 500);
+    }, delay);
+  }
+
+  function circle(c: THREE.Vector3, delay: number = 0) {
+    setTimeout(() => {
+      const sphere = new THREE.Mesh(new THREE.SphereGeometry(.05));
+      sphere.position.copy(c);
+      scene.add(sphere);
+      setTimeout(() => { sphere.removeFromParent(); }, 500);
+    }, delay);
+  }
 }
 
-function traversedBoundingBoxCenter(m: THREE.Object3D): { center: THREE.Vector3, size: THREE.Vector3 } {
+function traversedBoundingBoxCenter(m: THREE.Object3D): { center: THREE.Vector3, size: THREE.Vector3, box: THREE.Box3 } {
   const boundingBox = new THREE.Box3();
   const tempBox = new THREE.Box3();
   m.updateMatrixWorld(true);
@@ -171,7 +243,7 @@ function traversedBoundingBoxCenter(m: THREE.Object3D): { center: THREE.Vector3,
   const size = new THREE.Vector3();
   boundingBox.getSize(size);
 
-  return { center: center, size: size };
+  return { center: center, size: size, box: boundingBox };
 }
 
 
@@ -183,12 +255,7 @@ export function init(node: HTMLCanvasElement) {
 
   // CAMERA
   camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 100);
-
-  // ORBIT
-  orbit = new OrbitControls(camera, node)
-  orbit.enableZoom = false;
-  orbit.enablePan = false;
-  orbit.autoRotate = true;
+  camera.position.z = 2;
 
   // SCENE
   scene = new THREE.Scene();
@@ -238,7 +305,7 @@ export function init(node: HTMLCanvasElement) {
 
   window.addEventListener('resize', onWindowResize);
 
-  renderer.setAnimationLoop(animate);
+  animate();
 }
 
 // RESIZE
@@ -252,10 +319,17 @@ function onWindowResize() {
 
   composer.setSize(window.innerWidth, window.innerHeight)
   renderer.setSize(window.innerWidth, window.innerHeight);
+
 }
 
 // ANIMATE
-function animate() {
-  orbit.update();
-  composer.render();
+async function animate() {
+  const p = await partsRoot
+  renderer.setAnimationLoop(a);
+  function a() {
+    composer.render();
+    // const q = p.position.clone().sub(targetorigin).divideScalar(10);
+    // console.log(q);
+    // p.position.copy(q);
+  }
 }
