@@ -4,14 +4,16 @@
   type p = { name: string; i: number | undefined; inline: boolean | undefined };
   const { name, i = undefined, inline = true }: p = $props();
 
-  const link = `/p/${name.replaceAll(" ", "-")}`;
+  let link = $derived(`/p/${name.replaceAll(" ", "-")}`);
 </script>
 
-<a
-  href={link}
-  use:partButton={{ part: name, i: i }}
-  class={inline ? "" : "block"}>{name}</a
->
+{#key name}
+  <a
+    href={link}
+    use:partButton={{ part: name, i: i }}
+    class={inline ? "" : "block"}>{name}</a
+  >
+{/key}
 
 <style lang="scss">
   @use "styles/vars" as *;
