@@ -6,11 +6,14 @@ import { EffectComposer } from 'three/examples/jsm/Addons.js';
 
 import { GLTFLoader } from 'three/examples/jsm/Addons.js';
 import { UltraHDRLoader } from 'three/addons/loaders/UltraHDRLoader.js';
+import { Tween } from 'svelte/motion';
+import { linear } from 'svelte/easing';
 
 let partsRootResolver: Function;
 // the root of all the parts
 let partsRoot: Promise<THREE.Mesh> = new Promise(resolve => partsRootResolver = resolve)
-let targetorigin = new THREE.Vector3(0, 0, 0);
+let targetPosition = new Tween({ x: 0, y: 0, z: 0 }, { duration: 200 })
+let targetScale = new Tween({ s: 0 }, { duration: 200 })
 
 // the currently viewed part, resolves when partsRoot does.
 let currentlyViewedPart: Promise<THREE.Mesh> | THREE.Object3D = new Promise(async resolve => resolve(await partsRoot));
@@ -158,20 +161,30 @@ async function positionModelAtPartOld(m: THREE.Object3D) {
   }
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+
+
 async function positionModelAtPart(m: THREE.Object3D) {
 
   const scale = 1.5;
-
-  const rootCenter = (await partsRoot).position;
-
-
   let { center, size, box }: { center: THREE.Vector3, size: THREE.Vector3, box: THREE.Box3 } = traversedBoundingBoxCenter(m);
 
+  const root = await partsRoot;
+
   // draw first box
-  bh(box);
+  bh(box.clone());
 
   // Calculate the size of the bounding box
   const maxDim = Math.max(size.x, size.y, size.z);
+
+  // the current location of the root
+  const rootCenter = root.position.clone();
 
   // rootPos B
   // center A
@@ -180,21 +193,20 @@ async function positionModelAtPart(m: THREE.Object3D) {
   targetOrigin.sub(rootCenter);
   targetOrigin.multiplyScalar(scale / maxDim);
   targetOrigin.add(rootCenter);
+
   // update the position
-  (await partsRoot).position.sub(targetOrigin);
+  const newPos = rootCenter.sub(targetOrigin);
+  targetPosition.set({ x: newPos.x, y: newPos.y, z: newPos.z });
 
   // scale it
-  (await partsRoot).scale.multiplyScalar(scale / maxDim);
+  const newScale = root.clone().scale.multiplyScalar(scale / maxDim);
+  targetScale.set({ s: newScale.x });
+
   // update matrix world
-  (await partsRoot).updateMatrixWorld();
+  root.updateMatrixWorld();
 
-  const newBox = traversedBoundingBoxCenter(m).box;
-  const newCenter = new THREE.Vector3();
-  newBox.getCenter(newCenter);
 
-  ln(newCenter, center);
-  bh(newBox, 200);
-  circle(newCenter);
+  setTimeout(()=>bh(traversedBoundingBoxCenter(m).box), 200)
 
   function ln(p1: THREE.Vector3, p2: THREE.Vector3) {
     const geometry = new THREE.BufferGeometry().setFromPoints([p1, p2]);
@@ -203,7 +215,7 @@ async function positionModelAtPart(m: THREE.Object3D) {
     scene.add(line);
 
     scene.add(line);
-    setTimeout(() => { line.removeFromParent(); line.dispose() }, 500);
+    setTimeout(() => { line.removeFromParent(); }, 500);
   }
 
   function bh(b: THREE.Box3, delay: number = 0) {
@@ -223,6 +235,12 @@ async function positionModelAtPart(m: THREE.Object3D) {
     }, delay);
   }
 }
+
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 function traversedBoundingBoxCenter(m: THREE.Object3D): { center: THREE.Vector3, size: THREE.Vector3, box: THREE.Box3 } {
   const boundingBox = new THREE.Box3();
@@ -304,8 +322,17 @@ export function init(node: HTMLCanvasElement) {
   composer.addPass(out);
 
   window.addEventListener('resize', onWindowResize);
+  document.addEventListener('scroll', onScroll);
 
   animate();
+}
+
+function onScroll() {
+  console.log(window.pageYOffset);
+  const bounds = {min: new THREE.Vector2, max: new THREE.Vector2()};
+  camera.getViewBounds(2, bounds.min, bounds.max)
+  // multiply by 2 for perfect match, anything else is a paralax effect
+  camera.position.y = (window.pageYOffset / window.innerHeight) * (bounds.max.y, bounds.min.y) * 1.5;
 }
 
 // RESIZE
@@ -328,8 +355,7 @@ async function animate() {
   renderer.setAnimationLoop(a);
   function a() {
     composer.render();
-    // const q = p.position.clone().sub(targetorigin).divideScalar(10);
-    // console.log(q);
-    // p.position.copy(q);
+    p.position.set(targetPosition.current.x, targetPosition.current.y, targetPosition.current.z);
+    p.scale.setScalar(targetScale.current.s);
   }
 }
