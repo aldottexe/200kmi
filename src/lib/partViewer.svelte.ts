@@ -7,7 +7,6 @@ import { EffectComposer } from 'three/examples/jsm/Addons.js';
 import { GLTFLoader } from 'three/examples/jsm/Addons.js';
 import { UltraHDRLoader } from 'three/addons/loaders/UltraHDRLoader.js';
 import { Tween } from 'svelte/motion';
-import { linear } from 'svelte/easing';
 
 let partsRootResolver: Function;
 // the root of all the parts
@@ -23,6 +22,10 @@ let composer: EffectComposer;
 let bw: ShaderPass;
 let pixel: RenderPixelatedPass;
 let out: OutputPass;
+
+let orbit: THREE.Mesh;
+
+let clock = new THREE.Clock();
 
 // MATERIALS
 const hover = new THREE.MeshBasicMaterial({ name: "hover", color: 0x00eeff })
@@ -161,18 +164,9 @@ async function positionModelAtPartOld(m: THREE.Object3D) {
   }
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
-
 async function positionModelAtPart(m: THREE.Object3D) {
 
-  const scale = 1.5;
+  const scale = 2;
   let { center, size, box }: { center: THREE.Vector3, size: THREE.Vector3, box: THREE.Box3 } = traversedBoundingBoxCenter(m);
 
   const root = await partsRoot;
@@ -190,9 +184,12 @@ async function positionModelAtPart(m: THREE.Object3D) {
   // center A
   // B + (A - B) * s
   const targetOrigin = center.clone()
+  //rotate it back to normal
+  targetOrigin.applyQuaternion(new THREE.Quaternion().setFromEuler(orbit.rotation.clone()).invert());
   targetOrigin.sub(rootCenter);
   targetOrigin.multiplyScalar(scale / maxDim);
   targetOrigin.add(rootCenter);
+
 
   // update the position
   const newPos = rootCenter.sub(targetOrigin);
@@ -236,12 +233,6 @@ async function positionModelAtPart(m: THREE.Object3D) {
   }
 }
 
-/////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
 function traversedBoundingBoxCenter(m: THREE.Object3D): { center: THREE.Vector3, size: THREE.Vector3, box: THREE.Box3 } {
   const boundingBox = new THREE.Box3();
   const tempBox = new THREE.Box3();
@@ -264,6 +255,11 @@ function traversedBoundingBoxCenter(m: THREE.Object3D): { center: THREE.Vector3,
   return { center: center, size: size, box: boundingBox };
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 export function init(node: HTMLCanvasElement) {
 
@@ -292,15 +288,20 @@ export function init(node: HTMLCanvasElement) {
     t.dispose();
   });
 
+
+  //orbit
+  orbit = new THREE.Mesh();
+  scene.add(orbit);
+
   // OBJECT
   new GLTFLoader().load('/piston.glb', async (root) => {
     const mesh = root.scene.children[0];
 
     mesh.scale.set(.4, .4, .4);
-    mesh.rotation.z += 1;
+    mesh.rotation.z += .5;
     mesh.traverse((c: any) => { if (c.isMesh) c.material = shown; });
 
-    scene.add(mesh);
+    orbit.add(mesh);
     createPartsManifest(mesh);
 
     partsRootResolver(mesh)
@@ -332,7 +333,7 @@ function onScroll() {
   const bounds = {min: new THREE.Vector2, max: new THREE.Vector2()};
   camera.getViewBounds(2, bounds.min, bounds.max)
   // multiply by 2 for perfect match, anything else is a paralax effect
-  camera.position.y = (window.pageYOffset / window.innerHeight) * (bounds.max.y, bounds.min.y) * 1.5;
+  camera.position.y = (window.pageYOffset / window.innerHeight) * (bounds.max.y, bounds.min.y) * 2;
 }
 
 // RESIZE
@@ -357,5 +358,6 @@ async function animate() {
     composer.render();
     p.position.set(targetPosition.current.x, targetPosition.current.y, targetPosition.current.z);
     p.scale.setScalar(targetScale.current.s);
+    orbit.rotateY(.4 * clock.getDelta());
   }
 }
