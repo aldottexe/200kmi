@@ -4,11 +4,13 @@
   const articleNames = data.articles;
 </script>
 
-<div class="m10p">
+<div>
   <h1>Maintinance Articles</h1>
   <ul>
     {#each articleNames as article}
-      <a href="maintenance/{article.id}">{article.title}</a>
+      <li>
+        <a href="maintenance/{article.id}">{article.title}</a>
+      </li>
     {/each}
   </ul>
 </div>
@@ -18,12 +20,8 @@
   @use "$lib/styles/vars.scss" as *;
   a {
     margin-bottom: 10px;
-    color: $blue;
     display: block;
     font-size: $pSize;
-    &:hover {
-      color: $purple;
-    }
   }
   h1 {
     @extend h3;
@@ -33,7 +31,10 @@
     padding-bottom: 0;
     padding-left: 5px;
   }
-  .m10p {
-    padding-top: 120px;
+  div {
+    padding: 120px $smallPad 0;
+  }
+  ul {
+    padding-left: $smallPad;
   }
 </style>

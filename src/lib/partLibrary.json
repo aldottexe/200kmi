@@ -5,7 +5,8 @@
     "desc_long": "The *piston* turns the force of exploding gas and air into kinetic energy used by the *engine*, this is a longer description.",
     "parts": ["piston head", "connecting rod"],
     "connecting": ["engine"],
-    "tags": ["combustion", "powertrain"]
+    "tags": ["combustion", "powertrain"],
+    "res": ["http://autozone.com"]
   },
   "connecting-rod": {
     "title": "Connecting Rod",
@@ -21,7 +22,7 @@
     "desc_long":"",
     "parts": ["piston", "block"],
     "connecting": ["transmission"],
-    "tags": ["combustion", "powertrain"]
+    "tags": ["combustion", "powertrain", "air", "fuel", "electric"]
   },
   "block": {
     "title": "Block",

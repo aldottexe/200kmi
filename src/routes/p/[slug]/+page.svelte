@@ -1,5 +1,6 @@
 <script lang="ts">
   import PartButton from "$lib/partButton.svelte";
+  import { parseSiteName } from "$lib/parseSiteName";
 
   import type { PageProps } from "./$types";
   let { data }: PageProps = $props();
@@ -9,13 +10,10 @@
   <div>
     <div class="tags">
       {#each data.tags as item}
-        <img
-          src="../ci/{item}.svg"
-          alt={item}
-          style:transform="translateX({Math.random() * 3}px) translateY({Math.random() *
-            3}px)"
-          style:rotate="{Math.random() * 4 - 2}deg"
-        />
+        <a href="/p/#{item}">
+          <img class="tagImg" src="../ci/{item}.svg" alt={item} width="60px" />
+          <p>{item}</p>
+        </a>
       {/each}
     </div>
     <div>
@@ -48,17 +46,35 @@
 
 <section>
   <h2>How’s it work?</h2>
-  <p>
-    {#each data.desc_long.split("*") as chunk, i}
-      {#if i % 2}
-        <PartButton name={chunk} />
-      {:else}
-        {chunk}
-      {/if}
-    {/each}
-  </p>
+  <article>
+    <div>
+      <p>
+        {#each data.desc_long.split("*") as chunk, i}
+          {#if i % 2}
+            <PartButton name={chunk} />
+          {:else}
+            {chunk}
+          {/if}
+        {/each}
+      </p>
+    </div>
+    {#if data.res}
+      <div>
+        {#each data.res as d, i}
+          {#if d.startsWith("http")}
+            <a href={d}>{parseSiteName(d)}</a>
+          {:else}
+            <div>
+              {@html i}
+            </div>
+          {/if}
+        {/each}
+      </div>
+    {/if}
+  </article>
 </section>
 
 <style lang="scss">
   @use "/src/lib/styles/part.scss";
+  @use "/src/lib/styles/article.scss";
 </style>

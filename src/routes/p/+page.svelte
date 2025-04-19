@@ -8,12 +8,12 @@
   <h1>Parts</h1>
   <div class="list">
     {#each pageNames.entries() as tag}
-      <section>
+      <section id={tag[0]}>
         <div class="categoryTitle">
-          <svg> <use href="../ci/{tag[0]}.svg#logo" x="0"> </use></svg>
+          <img src="../ci/{tag[0]}.svg" alt={tag[0]} />
           <h2>{tag[0]}</h2>
         </div>
-        <div>
+        <div class="buttons">
           {#each Array.from(tag[1]).sort() as name}
             <PartButton {name} inline={false}></PartButton>
           {/each}
@@ -29,12 +29,12 @@
   .categoryTitle {
     display: flex;
     gap: 10px;
-    svg {
-      width: 60px;
+    align-items: center;
+    height: fit-content;
+    img {
       height: 60px;
-      * {
-        transform: scale(400%) translateX(-1px) translateY(1.4px);
-      }
+      position: relative;
+      transform: translateY(-6px);
     }
   }
   hr {
@@ -69,5 +69,8 @@
   }
   .m10p {
     padding-top: 120px;
+  }
+  .buttons {
+    min-width: 200px;
   }
 </style>

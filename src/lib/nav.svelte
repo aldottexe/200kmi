@@ -46,12 +46,15 @@
 
 <nav>
   <div class="icon">
-    <a href="/">200kmi</a>
+    <a href="/">
+      <img src="../logo.svg" alt="" width="70px" />
+    </a>
   </div>
+  <!-- nav bar -->
   <div class="center-bar">
     <div class="center-buttons">
-      <a href="/maintenance">Common Maintinance</a>
-      <a href="/p">Parts Library</a>
+      <a href="/maintenance">Maintinance</a>
+      <a href="/p">Parts</a>
       <a href="">Core Sytems</a>
       <input
         class="search"
@@ -62,6 +65,8 @@
         onkeydown={buttonNav}
       />
     </div>
+
+    <!-- suggestions -->
     {#if (showSuggestions || suggestionHovered) && namesSorted.length > 0}
       <div class="suggestions">
         {#each namesSorted as name, i}
@@ -102,12 +107,17 @@
       height: $height;
       box-sizing: border-box;
     }
+    * {
+      transition: background-color 0.1s;
+    }
   }
   .icon {
     position: absolute;
     display: grid;
     align-content: center;
     z-index: 3;
+    padding-left: $smallPad;
+    padding-top: 5px;
   }
   .center-bar {
     width: fit-content;
@@ -142,8 +152,11 @@
   }
   .search {
     border-radius: 0 15px 15px 0;
-    background-color: $purple;
+    background-color: color-mix(in srgb, $light2, #fff 10%);
     color: $dark;
+    &:focus {
+      background-color: color-mix(in srgb, $purple, $light2 50%);
+    }
   }
   .suggestions {
     width: 100%;

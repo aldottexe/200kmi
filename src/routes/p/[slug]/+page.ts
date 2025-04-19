@@ -17,5 +17,6 @@ export function load({ params }) {
         parts: pageData.parts,
         connecting: pageData.connecting,
         tags: pageData.tags,
+        res: pageData.res,
     };
 }

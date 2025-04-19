@@ -1,7 +1,9 @@
 <script lang="ts">
   import type { PageProps } from "./$types";
   let { data }: PageProps = $props();
-  import { parseSiteName } from "$lib/parseSiteName";
+  function parseSiteName(r: string): string {
+    return r.match(/(?<=https?:\/\/)[^/]+/)[0];
+  }
 </script>
 
 <div class="m10p">
@@ -41,23 +43,23 @@
   @use "$lib/styles/global.scss" as *;
   @use "$lib/styles/vars.scss" as *;
   @use "$lib/styles/article.scss";
-
   li {
     counter-increment: list-c;
     position: relative;
     &::before {
       @extend h3;
       content: counter(list-c);
+      transform: scale(0.8);
 
       display: grid;
       position: absolute;
       left: -90px;
-      top: -13px;
+      top: 0px;
 
       box-sizing: border-box;
-      width: 70px;
-      height: 70px;
-      padding: 1% 0 0 0.2%;
+      width: 80px;
+      height: 80px;
+      padding: 5px 3px 0 0;
 
       place-items: center;
       border-radius: 50px;
@@ -74,5 +76,12 @@
   h1 {
     line-height: 1.1;
     margin-bottom: 80px;
+  }
+  a {
+    margin-bottom: 5px;
+    color: $blue;
+    &:hover {
+      color: $purple;
+    }
   }
 </style>

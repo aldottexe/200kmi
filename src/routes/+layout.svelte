@@ -4,6 +4,7 @@
   import { page } from "$app/state";
   import Nav from "$lib/nav.svelte";
   import type { LayoutProps } from "./$types";
+  import Footer from "$lib/footer.svelte";
 
   let { children, data }: LayoutProps = $props();
 
@@ -22,6 +23,8 @@
 <div class="part">
   {@render children()}
 </div>
+
+<Footer />
 
 <style lang="scss">
   @import "../lib/styles/global";
