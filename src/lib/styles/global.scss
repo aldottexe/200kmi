@@ -24,10 +24,11 @@ body {
 }
 a, p, input{
   font-family: "neue-haas-grotesk-display", sans-serif;
+  font-size: $pSize;
   font-weight: 500;
   font-style: normal;
   text-decoration: none;
-  font-size: 20px;
+  letter-spacing: .05em;
 }
 a {
   color: $blue;
@@ -37,7 +38,8 @@ a {
 }
 p {
   margin-top: 0;
-  font-size: clamp(20px, 3vw, 25px);
+  font-size: $pSize;
+  line-height: 1.3;
 }
 .callout {
   font-family: EditorialNew, sans-serif;
@@ -90,7 +92,7 @@ h1 {
 h2 {
   font-weight: 400;
   font-size: 60px;
-  letter-spacing: -3px;
+  letter-spacing: -2px;
 }
 h3 {
   font-weight: 400;
@@ -104,3 +106,34 @@ img {
     border-radius: 10px;
   position: relative;
 }
+
+  @mixin columns($sizes) {
+    border-top: 1px $dark solid;
+    display: flex;
+
+    & > * {
+      box-sizing: border-box;
+      padding: $smallPad;
+      display: grid;
+      align-content: center;
+      justify-content: stretch;
+      margin: 0;
+      &:last-child {
+        border-right-width: 0;
+      }
+      @for $i from 1 through length($sizes) {
+        &:nth-child(#{$i}) {
+          min-width: nth($sizes, $i);
+        }
+      }
+    }
+    @media (max-width: 1000px) {
+      flex-direction: column;
+      * {
+        width: unset;
+        border-right-width: 0;
+        padding: 0;
+      }
+      padding: $smallPad;
+    }
+  }

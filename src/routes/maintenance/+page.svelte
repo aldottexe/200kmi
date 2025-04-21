@@ -25,16 +25,20 @@
   }
   h1 {
     @extend h3;
-    margin-bottom: 2px $dark solid;
-    border-bottom: 2px $dark solid;
+    margin-bottom: 1px $dark solid;
+    border-bottom: 1px $dark solid;
     line-height: 0.9;
     padding-bottom: 0;
-    padding-left: 5px;
+    padding-left: $medPad;
   }
   div {
-    padding: 120px $smallPad 0;
+    padding: 120px 0 0;
   }
   ul {
-    padding-left: $smallPad;
+    padding: $smallPad;
+    padding-left: $medPad;
+  }
+  li {
+    list-style-type: none;
   }
 </style>

@@ -4,7 +4,7 @@
   const pageNames = data.pageNamesTagged;
 </script>
 
-<div class="m10p">
+<div class="content">
   <h1>Parts</h1>
   <div class="list">
     {#each pageNames.entries() as tag}
@@ -42,10 +42,13 @@
   }
   h1 {
     @extend h3;
-    border-bottom: 2px $dark solid;
+    border-bottom: 1px $dark solid;
     line-height: 0.9;
     padding-bottom: 0;
-    padding-left: 5px;
+    padding: 0 $medPad;
+  }
+  .list {
+    padding: $smallPad $medPad;
   }
 
   section {
@@ -67,7 +70,7 @@
       height: fit-content;
     }
   }
-  .m10p {
+  .content {
     padding-top: 120px;
   }
   .buttons {

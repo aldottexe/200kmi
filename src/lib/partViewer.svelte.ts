@@ -325,11 +325,11 @@ export function init(node: HTMLCanvasElement) {
   window.addEventListener('resize', onWindowResize);
   document.addEventListener('scroll', onScroll);
 
+  onScroll();
   animate();
 }
 
 function onScroll() {
-  console.log(window.pageYOffset);
   const bounds = {min: new THREE.Vector2, max: new THREE.Vector2()};
   camera.getViewBounds(2, bounds.min, bounds.max)
   // multiply by 2 for perfect match, anything else is a paralax effect

@@ -4,7 +4,7 @@
   import { parseSiteName } from "$lib/parseSiteName";
 </script>
 
-<div class="m10p">
+<div>
   <h1>{data.title}</h1>
   <article>
     <div class="content">
@@ -48,6 +48,7 @@
     &::before {
       @extend h3;
       content: counter(list-c);
+      color: $dark !important;
 
       display: grid;
       position: absolute;
@@ -61,18 +62,22 @@
 
       place-items: center;
       border-radius: 50px;
-      border: 2px $dark solid;
+      border: 1px $green solid;
     }
   }
   ol {
     list-style: none;
     counter-reset: list-c;
   }
-  .m10p {
-    padding-top: 150px;
-  }
   h1 {
     line-height: 1.1;
-    margin-bottom: 80px;
+    padding-bottom: $smallPad;
+    margin-bottom: $medPad;
+    padding-top: 120px;
+    padding-left: $medPad;
+    border-bottom: 1px $dark solid;
+  }
+  article {
+    padding-left: $medPad;
   }
 </style>

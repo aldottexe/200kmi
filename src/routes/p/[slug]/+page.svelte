@@ -37,14 +37,14 @@
         {#if i % 2}
           <PartButton name={chunk} />
         {:else}
-          {chunk}
+          {@html chunk}
         {/if}
       {/each}
     </p>
   </div>
 </section>
 
-<section>
+<section class="content">
   <h2>How’s it work?</h2>
   <article>
     <div>
@@ -53,7 +53,7 @@
           {#if i % 2}
             <PartButton name={chunk} />
           {:else}
-            {chunk}
+            {@html chunk}
           {/if}
         {/each}
       </p>
@@ -65,7 +65,7 @@
             <a href={d}>{parseSiteName(d)}</a>
           {:else}
             <div>
-              {@html i}
+              {@html d}
             </div>
           {/if}
         {/each}

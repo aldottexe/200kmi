@@ -2,11 +2,11 @@
   "piston": {
     "title": "Piston",
     "desc_short": "The *piston* turns the force of exploding gas and air into rotational motion through it’s connection to the *crank shaft*",
-    "desc_long": "The *piston* turns the force of exploding gas and air into kinetic energy used by the *engine*, this is a longer description.",
+    "desc_long": "The *piston* is one of the hardest-working components inside a car’s engine. It lives within the cylinder and moves up and down at high speeds, driven by the combustion of fuel. Each time a mixture of fuel and air ignites inside the combustion chamber, it creates an explosion that pushes the piston down. That movement turns the crankshaft, which ultimately powers the wheels. Most modern cars have multiple pistons (usually four, six, or eight), working in a precisely timed sequence to keep the engine running smoothly. Without pistons, a car *engine* couldn’t generate the force it needs to move the vehicle forward.<br/><br/>Pistons are essential, but they’re not often seen or serviced by casual drivers. They’re made to last a long time, and in a healthy engine, they usually don’t need direct attention. When pistons do fail—usually due to worn *piston ring*s, overheating, or oil issues—the repairs can be pretty intense and costly. Replacing pistons often means taking apart a large portion of the engine, which can cost anywhere from $1,000 to over $4,000 depending on the car. That said, keeping your oil clean and engine cool goes a long way in keeping your pistons happy. A fun fact: racing engines sometimes use lightweight forged pistons to reduce weight and improve performance, giving cars faster acceleration and higher RPMs.",
     "parts": ["piston head", "connecting rod"],
     "connecting": ["engine"],
     "tags": ["combustion", "powertrain"],
-    "res": ["http://autozone.com"]
+    "res": ["http://autozone.com", "<iframe src=\"https://www.youtube.com/embed/ZSkB3zrU8T4?si=FnJLE-HDwxQU5i2w\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"]
   },
   "connecting-rod": {
     "title": "Connecting Rod",

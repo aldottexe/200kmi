@@ -45,11 +45,9 @@
 </script>
 
 <nav>
-  <div class="icon">
-    <a href="/">
-      <img src="../logo.svg" alt="" width="70px" />
-    </a>
-  </div>
+  <a href="/" class="icon">
+    <img src="../logo small g.svg" alt="" width="60px" />
+  </a>
   <!-- nav bar -->
   <div class="center-bar">
     <div class="center-buttons">
@@ -116,8 +114,14 @@
     display: grid;
     align-content: center;
     z-index: 3;
+    height: $height;
     padding-left: $smallPad;
-    padding-top: 5px;
+    img {
+      border-radius: 0px;
+    }
+    a {
+      padding: 0;
+    }
   }
   .center-bar {
     width: fit-content;
