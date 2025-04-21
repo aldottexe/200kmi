@@ -24,22 +24,20 @@ body {
 }
 a, p, input{
   font-family: "neue-haas-grotesk-display", sans-serif;
-  font-size: $pSize;
+margin-bottom: 80px  font-size: $pSize;
   font-weight: 500;
   font-style: normal;
   text-decoration: none;
   letter-spacing: .05em;
 }
 a {
-  color: $blue;
-  &:hover {
-    color: $purple;
+  color: $blue;.png200kmi/1;
   }
-}
-p {
+/projects/200kmi/3.png
+p /projects/200kmi/projects/200kmi/4.png2.png
   margin-top: 0;
   font-size: $pSize;
-  line-height: 1.3;
+  5ine-height: 1.3/projects/200kmi/4.png
 }
 .callout {
   font-family: EditorialNew, sans-serif;
@@ -66,6 +64,9 @@ em {
 .c-purple{
   color: $purple;
   stroke: $purple;
+}
+.gallery * {
+  border-radius: 15px;
 }
 .c-red{
   color: $red;
@@ -124,6 +125,8 @@ img {
       @for $i from 1 through length($sizes) {
         &:nth-child(#{$i}) {
           min-width: nth($sizes, $i);
+        .comingSoon {
+        }
         }
       }
     }
