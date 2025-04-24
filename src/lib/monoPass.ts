@@ -69,7 +69,7 @@ export const monoShader = {
 		    vec4 texel = texture2D(tDiffuse, pvUv);
 
 		    float gray = dot(texel.rgb, vec3(0.229, 0.587, 0.114));
-		    gray = gray - mod(gray, 0.05);
+		    // gray = gray - mod(gray, 0.05);
 
 		    // float o = min(1.0 - gray, texel.a + .1);
 				// o = min(o, 1.0 - max(grid.x, grid.y));

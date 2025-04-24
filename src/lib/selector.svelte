@@ -43,6 +43,7 @@
     width: 100%;
     text-align: left;
     padding: $smallPad;
+    padding-left: $medPad;
     transition: all 0.2s;
     &:last-child {
       border-bottom: none;

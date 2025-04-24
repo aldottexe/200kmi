@@ -25,6 +25,7 @@
     margin-bottom: 5px;
     color: $blue;
     font-size: $pSize;
+    font-weight: 500;
     &:hover {
       color: $purple;
     }

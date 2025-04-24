@@ -17,14 +17,18 @@
       {/each}
     </div>
     <div>
-      <h3>Components</h3>
-      {#each data.parts as item}
-        <PartButton name={item} inline={false} />
-      {/each}
-      <h3>Connecting</h3>
-      {#each data.connecting as item}
-        <PartButton name={item} inline={false} />
-      {/each}
+      {#if data.parts?.length > 0}
+        <h3>Components</h3>
+        {#each data.parts as item}
+          <PartButton name={item} inline={false} />
+        {/each}
+      {/if}
+      {#if data.connecting?.length > 0}
+        <h3>Connecting</h3>
+        {#each data.connecting as item}
+          <PartButton name={item} inline={false} />
+        {/each}
+      {/if}
     </div>
   </div>
   <div>

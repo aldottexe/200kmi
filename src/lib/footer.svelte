@@ -1,9 +1,9 @@
 <footer>
   <div class="desc">
     <a href="/">
-      <img src="../logo.svg" alt="icon" height="80px" />
+      <img src="../logo.svg" alt="icon" height="60px" />
     </a>
-    <p>Created with ♡ by <a href="alexlutz.com">Alex Lutz</a></p>
+    <p>Created with ♡ by <a href="https://alexlutz.com">Alex Lutz</a></p>
   </div>
   <div class="res">
     <h3>Resources</h3>

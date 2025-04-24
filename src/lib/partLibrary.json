@@ -11,7 +11,7 @@
   "connecting-rod": {
     "title": "Connecting Rod",
     "desc_short":"The connecting rod links the piston to the crankshaft, converting the piston’s up-and-down motion into rotational force. A strong, well-functioning rod ensures smooth engine operation and power delivery.",
-    "desc_long":"",
+    "desc_long":"The *connecting rod*—often just called a 'con rod'—is the mechanical bridge between the *piston* and the *crankshaft*. As fuel combusts and pushes the *piston* downward, the *connecting rod* pivots to transfer that force to the rotating *crankshaft*. It’s a crucial part of the engine’s motion system, turning straight-line movement into the spinning action that powers the vehicle.<br/><br/>Because they endure massive pressure and high-speed motion, *connecting rod*s are built from super-strong materials like forged steel or aluminum. Failure here is rare but catastrophic, often destroying the entire *engine* if it breaks. Performance engines sometimes use lightweight, high-strength rods for better balance and RPM potential.",
     "parts": [],
     "connecting": ["piston head", "piston"],
     "tags": ["combustion", "powertrain"]
@@ -19,10 +19,11 @@
   "engine": {
     "title": "Engine",
     "desc_short":"The engine is the heart of your vehicle, converting fuel into motion. It houses pistons, valves, and other critical parts that work together to generate power and keep your car running smoothly.",
-    "desc_long":"",
+    "desc_long":"The *engine* is the core system that makes your car go. Most modern vehicles use internal combustion engines, which work by mixing fuel and air, igniting the mixture, and using the resulting explosion to move *piston*s. That up-and-down motion is converted to rotational power through the *crankshaft*, eventually driving the wheels. The *engine* includes a wide range of parts, like the *cylinder head*, valves, *camshaft*, *piston*s, and more—all working in sync to create power.<br/><br/>Engines vary in size and shape, from small 3-cylinder setups to massive V8s. They can be powered by gasoline, diesel, or even electricity in the case of hybrid setups. Keeping the *engine* healthy involves regular *oil* changes, checking for leaks, and staying on top of cooling and ignition system maintenance. Fun fact: most car engines operate best around 200°F (93°C), and modern engines are designed to up to 200,000 miles with good care.",
     "parts": ["piston", "block"],
     "connecting": ["transmission"],
-    "tags": ["combustion", "powertrain", "air", "fuel", "electric"]
+    "tags": ["combustion", "powertrain", "air", "fuel", "electric"],
+    "res": []
   },
   "block": {
     "title": "Block",
@@ -36,8 +37,116 @@
     "title": "Piston Head",
     "desc_short":"The piston head is the top surface of the piston, exposed to extreme heat and pressure. It helps seal the combustion chamber and plays a key role in efficient fuel burning and power generation.",
     "desc_long":"",
-    "parts": [],
+    "parts": ["piston-ring"],
     "connecting": ["piston", "block"],
     "tags": ["combustion"]
+  },
+    "oil-filter": {
+      "title": "Oil Filter",
+      "desc_short": "The *oil filter* keeps the engine’s *oil* clean by trapping dirt, metal particles, and sludge before they can cause damage.",
+      "desc_long": "The *oil filter* plays a crucial role in maintaining the health of your car’s *engine*. As your engine oil circulates through the system, it picks up debris like dust, metal shavings, and carbon deposits. The *oil filter* traps these harmful particles, keeping them out of sensitive areas like the *crankshaft*, *camshaft*, and bearings. Without a working *oil filter*, contaminants can build up quickly, reducing performance and potentially causing long-term damage.<br/><br/>Most car manufacturers recommend changing the *oil filter* every time you get an oil change, usually every 3,000 to 7,500 miles depending on your vehicle and driving conditions. A clogged or dirty *oil filter* can reduce oil flow and increase *engine* wear, so regular maintenance is key. While the part itself is inexpensive—often less than $20—it does a big job in protecting your engine. Fun fact: high-performance or synthetic *oil filter*s offer better filtration and last longer, which is great for drivers who want to go longer between changes.",
+      "parts": [],
+      "connecting": ["engine", "oil pump"],
+      "tags": ["support"],
+      "res": [
+        "https://www.autozone.com/filters-and-pcv/oil-filter",
+        "<iframe src=\"https://www.youtube.com/embed/S8AqMfMQxGA\" title=\"How Oil Filters Work\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+      ]
+    },
+  "oil-pan": {
+    "title": "Oil Pan",
+    "desc_short": "The *oil pan* holds the engine’s oil supply and catches it as it drains down from the *engine*.",
+    "desc_long": "The *oil pan* is a metal container mounted to the bottom of the engine *block*. Its main job is to store the engine oil that keeps all the moving parts inside the *engine* lubricated. As oil circulates through the engine, it eventually drains back down into the *oil pan*, where it's collected and cooled before being cycled again by the *oil pump*. The *oil pan* also includes a drain plug that mechanics use to remove old *oil* during an *oil* change.<br/><br/>Since the *oil pan* sits at the very bottom of the *engine*, it’s vulnerable to damage from road debris or scraping over speed bumps—especially in low-clearance cars. A cracked or dented *oil pan* can lead to leaks, which may cause low oil levels and serious *engine* damage if not caught in time. In most cases, *oil pan* issues are fixable, but sometimes a full replacement is needed. Pro tip: if you ever notice *oil* spots under your parked car, check the *oil pan* first. Fun fact: some performance cars use baffled *oil pans* to prevent *oil* from sloshing around during hard cornering or acceleration.",
+    "parts": ["oil drain plug"],
+    "connecting": ["engine", "oil pump"],
+    "tags": ["support"],
+    "res": [
+      "https://www.autozone.com/engine/oil-pan",
+      "<iframe src=\"https://www.youtube.com/embed/QhxdMEjJGYE\" title=\"What is an Oil Pan?\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+    ]
+  },
+  "crankshaft": {
+    "title": "Crankshaft",
+    "desc_short": "The *crankshaft* converts the up-and-down motion of the *piston*s into the rotational force that turns the wheels.",
+    "desc_long": "The *crankshaft* is the backbone of the engine’s motion. It’s a heavy-duty metal shaft that sits inside the engine *block* and spins as the *piston*s move up and down. Each *piston* is connected to the *crankshaft* via a *connecting rod*, and together they form a repeating, rotating motion that ultimately powers the drivetrain. This motion is what turns the vehicle’s wheels, either directly or through a *transmission*.<br/><br/>Because it deals with intense pressure and friction, the *crankshaft* is precision-balanced and supported by strong bearings. If it fails, it can stop the *engine* cold. While the *crankshaft* itself rarely breaks, it can wear down over time or suffer damage if the oil isn’t clean and well-distributed. Keeping up with oil changes is key to protecting it. Fun fact: performance engines often use forged *crankshaft*s for better durability at high RPMs.",
+    "parts": [],
+    "connecting": ["engine", "piston", "connecting rod", "oil pump", "rear main seal", "flywheel"],
+    "tags": ["powertrain", "combustion"],
+    "res": [
+      "https://www.autozone.com/engine/crankshaft",
+      "<iframe src=\"https://www.youtube.com/embed/fVv2gG8Hf6g\" title=\"Crankshaft Explained\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+    ]
+  },
+  "piston-ring": {
+    "title": "Piston Rings",
+    "desc_short": "*Piston ring*s seal the space between the *piston* and the cylinder wall, keeping combustion gases in and oil out.",
+    "desc_long": "*Piston ring*s are thin metal rings that fit into grooves on the outside of the *piston*. They might be small, but they do big work. Their main job is to keep the combustion chamber sealed, so when fuel explodes, it pushes the *piston* down without leaking pressure. At the same time, *piston ring*s also keep engine oil from slipping up into the combustion area, where it would burn and cause smoke or buildup.<br/><br/>There are usually three *piston ring*s per *piston*: two for compression and one for oil control. If the rings wear out or break, you might see symptoms like low compression, poor acceleration, or blue smoke from the exhaust. Replacing *piston ring*s is labor-intensive—it requires taking the *engine* apart—but they’re essential for keeping your car running clean and strong. Fun fact: race engines sometimes use specially coated *piston ring*s for reduced friction and improved performance.",
+    "parts": [],
+    "connecting": ["piston", "block", "piston head"],
+    "tags": ["combustion", "powertrain"],
+    "res": [
+      "https://www.autozone.com/engine/piston-rings",
+      "<iframe src=\"https://www.youtube.com/embed/G0YtFfMGFz8\" title=\"How Piston Rings Work\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+    ]
+  },
+  "oil-drain-plug": {
+    "title": "Oil Drain Plug",
+    "desc_short": "The *oil drain plug* seals the bottom of the *oil pan* and is removed to let old engine oil drain out.",
+    "desc_long": "The *oil drain plug* is a small but critical piece of your car’s *engine* maintenance routine. It’s located at the lowest point of the *oil pan* and acts as a seal to keep *engine oil* from leaking out. When it’s time for an oil change, the *oil drain plug* is unscrewed to let old, dirty oil flow out of the *engine*.<br/><br/>While it's a simple part, it plays a key role in keeping the *engine* properly lubricated. If the plug is damaged or improperly tightened, it can lead to oil leaks, which may cause low oil pressure and *engine* damage over time. Some drain plugs come with a built-in magnet to catch metal shavings, which helps spot wear before it becomes a bigger issue. Fun fact: some newer vehicles use tool-free or quick-drain systems instead of traditional *oil drain plug*s for faster, cleaner oil changes.",
+    "parts": [],
+    "connecting": ["oil pan"],
+    "tags": ["support"],
+    "res": [
+      "https://www.autozone.com/filters-and-pcv/oil-drain-plug",
+      "<iframe src=\"https://www.youtube.com/embed/xjX2_Lex1Zs\" title=\"How to Replace an Oil Drain Plug\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+    ]
+  },
+  "oil-pump": {
+    "title": "Oil Pump",
+    "desc_short": "The *oil pump* pushes engine oil through the *engine*, keeping everything lubricated and cool.",
+    "desc_long": "The *oil pump* is like the heart of your car’s lubrication system. It circulates engine oil from the *oil pan* through passages in the engine to lubricate parts like the *crankshaft*, *camshaft*, and *piston ring*s. It ensures that every moving part inside the *engine* gets a steady flow of oil, reducing friction and heat.<br/><br/>The *oil pump* is typically driven by the *crankshaft* and is located inside the engine *block* or near the *oil pan*. If the *oil pump* fails or loses pressure, it can lead to catastrophic engine damage very quickly. Warning signs include a drop in *oil* pressure or the *oil* warning light on your dashboard. Replacing a failed *oil pump* can be costly, but regular oil changes and keeping the oil level topped off go a long way in protecting it. ",
+    "parts": [],
+    "connecting": ["engine", "oil pan", "crankshaft"],
+    "tags": ["support", "powertrain"],
+    "res": [
+      "https://www.autozone.com/engine/oil-pump",
+      "<iframe src=\"https://www.youtube.com/embed/vv5bEBDf_J8\" title=\"Oil Pump Explained\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+    ]
+  },
+  "rear-main-seal": {
+    "title": "Rear Main Seal",
+    "desc_short": "The *rear main seal* keeps engine oil from leaking out where the *crankshaft* exits the *engine*.",
+    "desc_long": "The *rear main seal* is a circular gasket that sits at the very back of the *engine*, where the *crankshaft* connects to the *transmission*. Its job is to seal the gap around the rotating *crankshaft* and prevent *engine oil* from leaking out. Even though it’s small and hidden deep in the engine assembly, a failing *rear main seal* can cause serious leaks and messes.<br/><br/>Over time, heat and wear can cause the *rear main seal* to dry out, crack, or lose flexibility. When that happens, you might see oil dripping from the rear of the *engine* or pooling underneath the car. Unfortunately, replacing it usually requires removing the transmission or *engine*, making it a labor-heavy job. Fun fact: some cars with manual transmissions may leak from the *rear main seal* more quickly due to the different motion loads from the clutch system.",
+    "parts": [],
+    "connecting": ["crankshaft", "engine", "transmission"],
+    "tags": ["support"],
+    "res": [
+      "https://www.autozone.com/engine/rear-main-seal",
+      "<iframe src=\"https://www.youtube.com/embed/niIbU9h7IoY\" title=\"Rear Main Seal Leak Symptoms and Fixes\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+    ]
+  },
+  "head-gasket": {
+    "title": "Head Gasket",
+    "desc_short": "The *head gasket* seals the engine *block* to the *cylinder head*, keeping coolant, oil, and combustion separated.",
+    "desc_long": "The *head gasket* is a critical seal that sits between the engine *block* and the *cylinder head*. Its job is to keep three major engine elements from mixing: *engine oil*, coolant, and combustion gases. It has to withstand extreme pressure and temperature, which is why a failure—called a blown *head gasket*—can cause big problems like overheating, white smoke, or even complete engine failure.<br/><br/>Most modern *head gasket*s are made of multi-layered steel and are designed to last the life of the engine. Still, overheating or pressure spikes can cause them to fail. Replacing a *head gasket* is a big job because it means disassembling much of the *engine*. Fun fact: Our model engine is inline, so it only has 1 head gasket, but other engines shapes such as V or flat have 2!",
+    "parts": [],
+    "connecting": ["block", "cylinder head", "cooling system"],
+    "tags": ["combustion", "support"],
+    "res": [
+      "https://www.autozone.com/engine/head-gasket",
+      "<iframe src=\"https://www.youtube.com/embed/owU3LyHL4-w\" title=\"What is a Head Gasket?\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+    ]
+  },
+  "flywheel": {
+    "title": "Flywheel",
+    "desc_short": "The *flywheel* stores rotational energy and helps smooth out engine power between combustion cycles.",
+    "desc_long": "The *flywheel* is a heavy, circular metal disc attached to the back of the *crankshaft*. Its main job is to store rotational energy, helping the *engine* maintain smooth and consistent power delivery. When the *piston*s fire and spin the *crankshaft*, the *flywheel* keeps that energy moving forward during the moments between power strokes.<br/><br/>In manual transmission cars, the *flywheel* also connects to the *clutch*, allowing you to engage or disengage the *engine* from the transmission. It has gear teeth around its edge that mesh with the *starter motor* to get the car running. Over time, the *flywheel* can wear down, especially around the clutch contact surface, which may cause vibrations or slipping. Fun fact: performance cars often use lightweight *flywheel*s to improve throttle response by reducing rotational mass.",
+    "parts": [],
+    "connecting": ["crankshaft", "clutch", "starter"],
+    "tags": ["powertrain"],
+    "res": [
+      "https://www.autozone.com/drivetrain/flywheel",
+      "<iframe src=\"https://www.youtube.com/embed/VJ0Z2J8KOYg\" title=\"What Does a Flywheel Do?\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+    ]
   }
 }

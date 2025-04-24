@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fade } from "svelte/transition";
+  import { fade, scale } from "svelte/transition";
 
   const { pageNames } = $props();
 
@@ -46,7 +46,7 @@
 
 <nav>
   <a href="/" class="icon">
-    <img src="../logo small g.svg" alt="" width="60px" />
+    <img src="../logo small.svg" alt="" width="50px" />
   </a>
   <!-- nav bar -->
   <div class="center-bar">
@@ -66,7 +66,7 @@
 
     <!-- suggestions -->
     {#if (showSuggestions || suggestionHovered) && namesSorted.length > 0}
-      <div class="suggestions">
+      <div class="suggestions" transition:scale={{ duration: 200 }}>
         {#each namesSorted as name, i}
           <a
             class={suggestionSelected === i ? "selected" : ""}
@@ -111,16 +111,21 @@
   }
   .icon {
     position: absolute;
+    box-sizing: border-box;
+    top: 0;
+    bottom: 0;
     display: grid;
     align-content: center;
     z-index: 3;
-    height: $height;
-    padding-left: $smallPad;
+    margin-left: $medPad;
+    border: 1px solid $dark;
+    background-color: $light2;
+    &:hover {
+      background-color: $green;
+    }
+    min-height: calc($height + 2px);
     img {
       border-radius: 0px;
-    }
-    a {
-      padding: 0;
     }
   }
   .center-bar {
@@ -131,7 +136,7 @@
     display: flex;
     justify-content: center;
     background: $light2;
-    border-radius: 15px;
+    border: $dark solid 1px;
     & > * {
       height: 100%;
       vertical-align: center;
@@ -144,7 +149,7 @@
     }
     a {
       border: 5px $light2 solid;
-      border-radius: 15px;
+      /* border-radius: 15px; */
       $colors: $green, $orange, $red;
       @for $i from 1 through length($colors) {
         &:nth-child(#{$i}):hover {
@@ -155,7 +160,8 @@
     }
   }
   .search {
-    border-radius: 0 15px 15px 0;
+    /* border-radius: 0 15px 15px 0; */
+    border-left: 1px $dark solid;
     background-color: color-mix(in srgb, $light2, #fff 10%);
     color: $dark;
     &:focus {
@@ -168,11 +174,14 @@
     box-sizing: border-box;
     padding: 5px;
     margin-top: 10px;
-    border-radius: 15px;
+    border: 1px $dark solid;
+    text-transform: capitalize;
+    max-height: 300px;
+    overflow-y: scroll;
+    scrollbar-width: none;
 
     a {
       display: block;
-      border-radius: 10px;
       padding: 10px;
     }
     .selected {
@@ -182,7 +191,7 @@
   }
   a,
   input {
-    font-size: 13px;
+    font-size: 15px;
     line-height: 20px;
     padding: 0;
     padding: 10px;

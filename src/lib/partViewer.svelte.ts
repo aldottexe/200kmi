@@ -29,8 +29,8 @@ let clock = new THREE.Clock();
 
 // MATERIALS
 const hover = new THREE.MeshBasicMaterial({ name: "hover", color: 0x00eeff })
-const hidden = new THREE.MeshBasicMaterial({ name: "hidden", color: 0x00eeff, transparent: true, opacity: .1, })
-const hiddenhover = new THREE.MeshBasicMaterial({ name: "hiddenHover", color: 0x00eeff, transparent: true, opacity: .6, })
+const hidden = new THREE.MeshBasicMaterial({ name: "hidden", color: 0x00eeff, transparent: true, opacity: .02, side: THREE.DoubleSide})
+const hiddenhover = new THREE.MeshBasicMaterial({ name: "hiddenHover", color: 0x00eeff, transparent: true, opacity: .3, side: THREE.DoubleSide,})
 const shown = new THREE.MeshStandardMaterial({ name: "shown", metalness: .8, roughness: .6 })
 
 // MANIFEST

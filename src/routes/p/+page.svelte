@@ -48,25 +48,34 @@
     padding: 0 $medPad;
   }
   .list {
-    padding: $smallPad $medPad;
+    box-sizing: border-box;
+    height: calc(100vh - 36px - 120px);
+    overflow-y: scroll;
+    pointer-events: all;
+    scrollbar-width: none;
+    position: relative;
   }
 
   section {
-    margin: 40px 0;
-    position: relative;
     display: flex;
-    width: 100%;
     justify-content: space-between;
     flex-wrap: wrap;
     pointer-events: none;
+    border-bottom: 1px $dark solid;
+    padding: $medPad;
+    text-transform: capitalize;
+    position: relative;
+    &:last-child {
+      border-bottom: none;
+    }
+    @media (max-width: 800px) {
+      flex-direction: column;
+    }
     * {
       pointer-events: auto;
     }
     h2 {
-      text-transform: capitalize;
       position: sticky;
-      top: 100px;
-      z-index: 4;
       height: fit-content;
     }
   }
